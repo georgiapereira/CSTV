@@ -14,4 +14,9 @@
         <!-- Customize your theme here. -->
         <item name="android:background">@color/background</item>
     </style>
+    <style name="Theme.AppSplash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_fuze_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.CSTV</item>
+    </style>
 </resources>
