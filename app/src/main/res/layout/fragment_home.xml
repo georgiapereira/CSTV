@@ -7,7 +7,7 @@
     android:background="@color/background_dark"
     android:paddingHorizontal="24dp"
     android:paddingTop="24dp"
-    tools:context=".HomeFragment">
+    tools:context=".ui.home.HomeFragment">
 
     <TextView
         android:id="@+id/textView"
