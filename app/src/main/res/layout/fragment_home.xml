@@ -9,6 +9,20 @@
     android:paddingTop="24dp"
     tools:context=".ui.home.HomeFragment">
 
+
+
+    <RelativeLayout
+        android:id="@+id/matches_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="130dp"
@@ -24,9 +38,10 @@
         android:id="@+id/matches_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/match_card"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:listitem="@layout/match_card" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

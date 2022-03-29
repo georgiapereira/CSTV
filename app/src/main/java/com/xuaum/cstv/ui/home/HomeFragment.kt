@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.NetworkState
 import com.xuaum.cstv.data.repository.MatchRepository
@@ -39,16 +40,21 @@ class HomeFragment : Fragment() {
         viewModel.getMatches()
     }
 
-    private fun setupGetMatchesStateObserver(){
-        viewModel.getMatchesState.observe(viewLifecycleOwner){ state ->
-            when(state){
-                is NetworkState.Loading->{
-                    Log.i(TAG, "setupGetMatchesStateObserver: Loading")
+    private fun setupGetMatchesStateObserver() {
+        viewModel.getMatchesState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is NetworkState.Loading -> {
+
                 }
-                is NetworkState.Success->{
+                is NetworkState.Success -> {
+                    binding.matchesLoading.visibility = View.GONE
+                    viewModel.getMatchesResponse.value?.let { matches ->
+                        binding.matchesContainer.adapter = MatchesAdapter(matches, Glide.with(this))
+                    }
                     Log.i(TAG, "setupGetMatchesStateObserver: Sucesso")
                 }
-                is NetworkState.Failed->{
+                is NetworkState.Failed -> {
+                    binding.matchesLoading.visibility = View.GONE
                     Log.i(TAG, "setupGetMatchesStateObserver: ${state.exception}")
                 }
                 else -> {}
@@ -56,7 +62,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    companion object{
+    companion object {
         private const val TAG = "HomeFragment"
     }
 }

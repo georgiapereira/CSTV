@@ -1,3 +1,3 @@
 package com.xuaum.cstv.data.model.response
 
-class GetMatchesResponse : ArrayList<GetMatchesResponseItem>()
+class GetMatchesResponse : ArrayList<CSMatch>()
