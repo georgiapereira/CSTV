@@ -42,6 +42,7 @@ class MatchesAdapter(
                 .placeholder(R.drawable.circle_placeholder)
                 .into(binding.leagueLogo)
 
+            binding.matchTime.isSelected = match.status == "running"
 
             binding.team1Name.text = match.opponents[0].opponent.name
             binding.team2Name.text = match.opponents[1].opponent.name

@@ -5,10 +5,12 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface MatchAPI {
-    @GET("/matches")
+    @GET("/csgo/matches")
     suspend fun getMatches(
-        @Query("sort") sort: String = "begin_at",
+        @Query("sort") sortBegin: String = "begin_at",
+        @Query("sort") sortStatus: String = "-status",
         @Query("page[size]") pageSize: Int = 20,
-        @Query("range[scheduled_at]") range: String = "2022-03-29T12:00:00Z,2023-01-13T12:00:00Z"
+        @Query("range[scheduled_at]") range: String = "2022-03-29T12:00:00Z,2023-01-13T12:00:00Z",
+        @Query("filter[finished]") finished: Boolean = false,
     ): GetMatchesResponse?
 }

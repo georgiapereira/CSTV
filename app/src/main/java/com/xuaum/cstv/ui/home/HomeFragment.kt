@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.NetworkState
+import com.xuaum.cstv.data.model.response.CSMatch
 import com.xuaum.cstv.data.repository.MatchRepository
 import com.xuaum.cstv.data.service.RetrofitMatchAPI
 import com.xuaum.cstv.databinding.FragmentHomeBinding
@@ -48,8 +49,12 @@ class HomeFragment : Fragment() {
                 }
                 is NetworkState.Success -> {
                     binding.matchesLoading.visibility = View.GONE
+                    binding.matchesContainer.visibility = View.VISIBLE
                     viewModel.getMatchesResponse.value?.let { matches ->
-                        binding.matchesContainer.adapter = MatchesAdapter(matches, Glide.with(this))
+                        Log.i(TAG, "setupGetMatchesStateObserver: ${matches.toString()}")
+                        binding.matchesContainer.adapter =
+                            MatchesAdapter(matches.filter { isValidMatch(it) } as ArrayList<CSMatch>,
+                                Glide.with(this))
                     }
                     Log.i(TAG, "setupGetMatchesStateObserver: Sucesso")
                 }
@@ -59,6 +64,12 @@ class HomeFragment : Fragment() {
                 }
                 else -> {}
             }
+        }
+    }
+
+    private fun isValidMatch(csMatch: CSMatch): Boolean {
+        csMatch.apply {
+            return opponents.size == 2 && (status == "running" || status == "not_started")
         }
     }
 

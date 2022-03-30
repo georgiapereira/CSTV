@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/match_time_background_live" android:state_selected="true" />
+    <item android:drawable="@drawable/match_time_background" android:state_selected="false" />
+    <item android:drawable="@drawable/match_time_background" />
+</selector>

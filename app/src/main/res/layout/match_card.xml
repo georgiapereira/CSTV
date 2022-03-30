@@ -5,14 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="24dp"
-    android:background="@drawable/match_item_background"
-    >
+    android:background="@drawable/match_card_background">
 
     <TextView
         android:id="@+id/match_time"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/match_time_background"
+        android:background="@drawable/match_time_background_selector"
         android:fontFamily="@font/roboto_bold"
         android:padding="8dp"
         android:text="Placeholder"
@@ -38,7 +37,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/circle_placeholder" />
 
 
         <ImageView
@@ -48,7 +48,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView2"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/circle_placeholder" />
 
         <TextView
             android:id="@+id/textView2"
@@ -109,7 +110,8 @@
             android:layout_height="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/circle_placeholder" />
 
         <TextView
             android:id="@+id/league_name"

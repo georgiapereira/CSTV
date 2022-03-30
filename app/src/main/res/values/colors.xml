@@ -12,4 +12,5 @@
     <color name="line_border">#33FFFFFF</color>
     <color name="gray">#33FAFAFA</color>
     <color name="light_gray">#C4C4C4</color>
+    <color name="red">#F42A35</color>
 </resources>

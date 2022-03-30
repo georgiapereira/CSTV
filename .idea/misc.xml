@@ -10,10 +10,19 @@
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/drawable/ic_fuze_logo.xml" value="0.1" />
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/drawable/match_item_background.xml" value="0.1335" />
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/drawable/match_time_background.xml" value="0.1335" />
+        <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/drawable/match_time_background_live.xml" value="0.116" />
+        <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/drawable/match_time_background_selector.xml" value="0.116" />
+        <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/drawable/player_item_background_left.xml" value="0.116" />
+        <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/drawable/player_item_background_right.xml" value="0.116" />
+        <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/drawable/rounded_square_placeholder.xml" value="0.116" />
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/activity_main.xml" value="0.15" />
+        <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/fragment_details.xml" value="0.16" />
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/match_card.xml" value="0.5" />
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/match_item.xml" value="0.5" />
+        <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/player_item.xml" value="0.14764492753623187" />
+        <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/player_item_left.xml" value="0.33" />
+        <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/right_player_item.xml" value="0.14764492753623187" />
       </map>
     </option>
   </component>

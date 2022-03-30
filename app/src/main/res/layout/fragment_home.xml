@@ -10,7 +10,6 @@
     tools:context=".ui.home.HomeFragment">
 
 
-
     <RelativeLayout
         android:id="@+id/matches_loading"
         android:layout_width="match_parent"
@@ -37,7 +36,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/matches_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

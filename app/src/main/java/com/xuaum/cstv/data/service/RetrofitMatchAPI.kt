@@ -9,7 +9,7 @@ object RetrofitMatchAPI: MatchAPI {
     private val matchAPI: MatchAPI
         get() = RetrofitAPIBuilder().buildApi(MatchAPI::class.java)
 
-    override suspend fun getMatches(sort: String, pageSize: Int, range: String): GetMatchesResponse? = withContext(Dispatchers.IO) {
+    override suspend fun getMatches(sortBegin: String, sortStatus: String, pageSize: Int, range: String, finished: Boolean): GetMatchesResponse? = withContext(Dispatchers.IO) {
         val result = matchAPI.getMatches()
         result
     }
