@@ -73,12 +73,14 @@
 
         <TextView
             android:id="@+id/team1_name"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
             android:fontFamily="@font/roboto"
-            android:text="Placeholder1"
+            android:maxLines="2"
+            android:singleLine="false"
+            android:text="Plceholder1aaaaaaaaaaa"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="10sp"
@@ -88,11 +90,12 @@
 
         <TextView
             android:id="@+id/team2_name"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
             android:fontFamily="@font/roboto"
+            android:maxLines="2"
             android:text="Placeholder2"
             android:textAlignment="center"
             android:textColor="@color/white"

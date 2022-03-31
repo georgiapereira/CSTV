@@ -9,13 +9,16 @@ import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
 import com.xuaum.cstv.databinding.MatchCardBinding
 import com.xuaum.cstv.util.MyDateFormatter
+import okhttp3.internal.notifyAll
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MatchesAdapter(
-    private val csMatches: ArrayList<CSMatch>,
     private val glide: RequestManager,
     private val onCardClicked: (leagueSeries: String, team1Id: Int, team2Id: Int, matchTime: String) -> Unit
 ) : RecyclerView.Adapter<MatchesAdapter.MatchViewHolder>() {
+
+    private val csMatches: ArrayList<CSMatch> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
         return MatchViewHolder(
@@ -29,6 +32,16 @@ class MatchesAdapter(
 
     override fun getItemCount(): Int = csMatches.size
 
+    fun clear() {
+        val size = itemCount
+        csMatches.clear()
+        notifyItemRangeRemoved(0, size)
+    }
+
+    fun addAll(csMatchesList: ArrayList<CSMatch>) {
+        csMatches.addAll(csMatchesList)
+        notifyItemRangeInserted(0, itemCount)
+    }
 
     inner class MatchViewHolder(viewItem: View) : RecyclerView.ViewHolder(viewItem) {
         private val binding = MatchCardBinding.bind(viewItem)
@@ -43,9 +56,7 @@ class MatchesAdapter(
                 onCardClicked(league, team1.id, team2.id, time)
             }
 
-            val dateFormatted = MyDateFormatter().stringToAppDateString(match.begin_at)
 
-            binding.matchTime.text = dateFormatted
 
             binding.leagueName.text = league
             glide
@@ -55,7 +66,15 @@ class MatchesAdapter(
                 .fallback(R.drawable.circle_placeholder)
                 .into(binding.leagueLogo)
 
-            binding.matchTime.isSelected = match.status == "running"
+            if (match.status == "running") {
+                binding.matchTime.isSelected = true
+                binding.matchTime.text = "AGORA"
+            } else {
+                binding.matchTime.isSelected = false
+                val dateFormatted = MyDateFormatter().stringToAppDateString(match.begin_at)
+                binding.matchTime.text = dateFormatted
+            }
+
 
             binding.team1Name.text = team1.name
             glide

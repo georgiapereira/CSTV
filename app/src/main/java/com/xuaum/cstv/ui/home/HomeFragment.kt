@@ -25,6 +25,8 @@ class HomeFragment : Fragment() {
         HomeViewModelFactory(MatchRepository(RetrofitMatchAPI))
     }
 
+    private lateinit var matchesAdapter: MatchesAdapter
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel.getMatches()
@@ -42,6 +44,17 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        matchesAdapter =
+            MatchesAdapter(
+                Glide.with(this),
+                ::onCardClicked
+            )
+        binding.matchesContainer.adapter = matchesAdapter
+
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.getMatches()
+        }
+
         setupGetMatchesStateObserver()
     }
 
@@ -49,7 +62,7 @@ class HomeFragment : Fragment() {
         viewModel.getMatchesState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is NetworkState.Loading -> {
-                    binding.matchesLoading.visibility = View.VISIBLE
+                    //binding.matchesLoading.visibility = View.VISIBLE
                 }
                 is NetworkState.Success -> {
                     viewModel.getMatchesResponse.value?.let { matches ->
@@ -57,18 +70,16 @@ class HomeFragment : Fragment() {
                             TAG,
                             "setupGetMatchesStateObserver: ${matches.filter { isValidMatch(it) }.size}"
                         )
-                        binding.matchesContainer.adapter =
-                            MatchesAdapter(
-                                matches.filter { isValidMatch(it) } as ArrayList<CSMatch>,
-                                Glide.with(this),
-                                ::onCardClicked
-                            )
+                        matchesAdapter.clear()
+                        matchesAdapter.addAll(matches.filter { isValidMatch(it) } as ArrayList<CSMatch>)
+                        binding.swipeRefresh.isRefreshing = false
                     }
                     binding.matchesLoading.visibility = View.GONE
                     Log.i(TAG, "setupGetMatchesStateObserver: Sucesso")
                 }
                 is NetworkState.Failed -> {
                     binding.matchesLoading.visibility = View.GONE
+                    binding.swipeRefresh.isRefreshing = false
                     Log.i(TAG, "setupGetMatchesStateObserver: ${state.exception}")
                 }
                 else -> {}

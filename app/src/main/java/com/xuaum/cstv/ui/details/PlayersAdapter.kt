@@ -57,8 +57,8 @@ class PlayersAdapter(
 
         fun bind(player: Player) {
             binding.nicknameText.text = player.name
-            binding.nameText.text = "${player.first_name} ${player.last_name}"
-            loading.start()
+            binding.nameText.text =
+                "${player.first_name.trim() ?: ""} ${player.last_name.trim() ?: ""}"
             glide.load(player.image_url)
                 .transform(RoundedCorners(8))
                 .placeholder(R.drawable.rounded_square_placeholder)
@@ -73,8 +73,8 @@ class PlayersAdapter(
 
         fun bind(player: Player) {
             binding.nicknameText.text = player.name
-            binding.nameText.text = "${player.first_name} ${player.last_name}"
-            loading.start()
+            binding.nameText.text =
+                "${player.first_name.trim() ?: ""} ${player.last_name.trim() ?: ""}"
             glide.load(player.image_url)
                 .transform(RoundedCorners(8))
                 .placeholder(R.drawable.rounded_square_placeholder)
