@@ -24,14 +24,16 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="8dp"
+        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/player_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -41,8 +43,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintEnd_toStartOf="@+id/player_image"
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
@@ -53,6 +56,7 @@
                 android:autoSizeMinTextSize="10dp"
                 android:autoSizeStepGranularity="1sp"
                 android:autoSizeTextType="none"
+                android:background="@android:color/transparent"
                 android:fontFamily="@font/roboto_bold"
                 android:singleLine="true"
                 android:text="Nickname"
@@ -70,6 +74,7 @@
                 android:autoSizeMinTextSize="8sp"
                 android:autoSizeStepGranularity="1sp"
                 android:autoSizeTextType="none"
+                android:background="@android:color/transparent"
                 android:fontFamily="@font/roboto"
                 android:singleLine="true"
                 android:text="Nome Jogador"

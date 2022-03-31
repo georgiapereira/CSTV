@@ -1,4 +1,4 @@
-package com.xuaum.cstv.data.model.response
+package com.xuaum.cstv.data.model.response.getmatchesresponse
 
 data class Live(
     val opens_at: Any,

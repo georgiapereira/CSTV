@@ -7,10 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.model.response.CSMatch
+import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
 import com.xuaum.cstv.data.repository.MatchRepository
 import com.xuaum.cstv.data.service.RetrofitMatchAPI
 import com.xuaum.cstv.databinding.FragmentHomeBinding
@@ -44,18 +45,20 @@ class HomeFragment : Fragment() {
     private fun setupGetMatchesStateObserver() {
         viewModel.getMatchesState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is NetworkState.Loading -> {
-
+                is NetworkState.Loading-> {
+                    binding.matchesLoading.visibility = View.VISIBLE
                 }
                 is NetworkState.Success -> {
-                    binding.matchesLoading.visibility = View.GONE
-                    binding.matchesContainer.visibility = View.VISIBLE
                     viewModel.getMatchesResponse.value?.let { matches ->
                         Log.i(TAG, "setupGetMatchesStateObserver: ${matches.toString()}")
                         binding.matchesContainer.adapter =
-                            MatchesAdapter(matches.filter { isValidMatch(it) } as ArrayList<CSMatch>,
-                                Glide.with(this))
+                            MatchesAdapter(
+                                matches.filter { isValidMatch(it) } as ArrayList<CSMatch>,
+                                Glide.with(this),
+                                ::onCardClicked
+                            )
                     }
+                    binding.matchesLoading.visibility = View.GONE
                     Log.i(TAG, "setupGetMatchesStateObserver: Sucesso")
                 }
                 is NetworkState.Failed -> {
@@ -71,6 +74,17 @@ class HomeFragment : Fragment() {
         csMatch.apply {
             return opponents.size == 2 && (status == "running" || status == "not_started")
         }
+    }
+
+    private fun onCardClicked(leagueSeries: String, team1Id: Int, team2Id: Int, matchTime: String) {
+        this.findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToDetailsFragment(
+                leagueSeries,
+                team1Id,
+                team2Id,
+                matchTime
+            )
+        )
     }
 
     companion object {

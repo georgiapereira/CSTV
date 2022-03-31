@@ -11,6 +11,7 @@
         android:id="@+id/back_button"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:translationZ="2dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:backgroundTint="@android:color/transparent"
@@ -23,11 +24,15 @@
 
     <TextView
         android:id="@+id/details_league_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:translationZ="1dp"
+        android:layout_marginStart="72dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="72dp"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center_horizontal"
+        android:maxLines="2"
         android:text="Place + Holder"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -159,6 +164,17 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <RelativeLayout
+        android:id="@+id/teams_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="invisible"
+        android:gravity="center">
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

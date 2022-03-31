@@ -5,12 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.model.response.GetMatchesResponse
+import com.xuaum.cstv.data.model.response.getmatchesresponse.GetMatchesResponse
 import com.xuaum.cstv.data.repository.MatchRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val matchRepository: MatchRepository) : ViewModel() {
+class HomeViewModel(
+    private val matchRepository: MatchRepository
+) : ViewModel() {
     private val _getMatchesState = MutableLiveData<NetworkState>(NetworkState.Idle)
     val getMatchesState: LiveData<NetworkState>
         get() = _getMatchesState
