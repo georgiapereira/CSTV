@@ -16,6 +16,7 @@
         android:fontFamily="@font/roboto_bold"
         android:padding="8dp"
         android:text="Placeholder"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="8sp"
         app:layout_constraintEnd_toEndOf="parent"

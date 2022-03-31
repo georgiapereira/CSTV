@@ -9,9 +9,9 @@ interface MatchAPI {
     @GET("/csgo/matches")
     suspend fun getMatches(
         @Query("sort") sortBegin: String = "begin_at",
-        @Query("sort") sortStatus: String = "-status",
-        @Query("page[size]") pageSize: Int = 20,
-        @Query("range[scheduled_at]") range: String = "2022-03-29T12:00:00Z,2023-01-13T12:00:00Z",
+        //@Query("sort") sortStatus: String = "-status",
+        @Query("page[size]") pageSize: Int = 100,
+        @Query("range[scheduled_at]") range: String ,
         @Query("filter[finished]") finished: Boolean = false,
     ): GetMatchesResponse?
 

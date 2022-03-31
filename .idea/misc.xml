@@ -18,10 +18,11 @@
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/activity_main.xml" value="0.15" />
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/fragment_details.xml" value="0.33" />
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/fragment_home.xml" value="0.22" />
-        <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/match_card.xml" value="0.5" />
+        <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/match_card.xml" value="0.25" />
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/match_item.xml" value="0.5" />
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/player_item.xml" value="0.14764492753623187" />
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/player_item_left.xml" value="0.33" />
+        <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/player_item_right.xml" value="0.67" />
         <entry key="..\:/Users/daojo/AndroidStudioProjects/CSTV/app/src/main/res/layout/right_player_item.xml" value="0.14764492753623187" />
       </map>
     </option>

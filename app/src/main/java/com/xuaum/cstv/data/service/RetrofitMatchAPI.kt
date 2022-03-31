@@ -2,6 +2,7 @@ package com.xuaum.cstv.data.service
 
 import com.xuaum.cstv.data.model.response.getmatchesresponse.GetMatchesResponse
 import com.xuaum.cstv.data.model.response.getteamsresponse.GetTeamsResponse
+import com.xuaum.cstv.util.MyDateFormatter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -11,7 +12,10 @@ object RetrofitMatchAPI {
 
     suspend fun getMatches(): GetMatchesResponse? =
         withContext(Dispatchers.IO) {
-            val result = matchAPI.getMatches()
+
+            val currentDate = MyDateFormatter().getServerDateStringOffset(hours = -6)
+            val datePlusYear = MyDateFormatter().getServerDateStringOffset(years = 1)
+            val result = matchAPI.getMatches(range = "$currentDate,$datePlusYear")
             result
         }
 

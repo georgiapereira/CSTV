@@ -8,6 +8,8 @@ import com.bumptech.glide.RequestManager
 import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
 import com.xuaum.cstv.databinding.MatchCardBinding
+import com.xuaum.cstv.util.MyDateFormatter
+import java.util.*
 
 class MatchesAdapter(
     private val csMatches: ArrayList<CSMatch>,
@@ -41,13 +43,16 @@ class MatchesAdapter(
                 onCardClicked(league, team1.id, team2.id, time)
             }
 
-            binding.matchTime.text = match.begin_at
+            val dateFormatted = MyDateFormatter().stringToAppDateString(match.begin_at)
+
+            binding.matchTime.text = dateFormatted
 
             binding.leagueName.text = league
             glide
                 .load(match.league.image_url)
                 .fitCenter()
                 .placeholder(R.drawable.circle_placeholder)
+                .fallback(R.drawable.circle_placeholder)
                 .into(binding.leagueLogo)
 
             binding.matchTime.isSelected = match.status == "running"
@@ -57,6 +62,7 @@ class MatchesAdapter(
                 .load(team1.image_url)
                 .fitCenter()
                 .placeholder(R.drawable.circle_placeholder)
+                .fallback(R.drawable.circle_placeholder)
                 .into(binding.team1Logo)
 
             binding.team2Name.text = team2.name
@@ -64,6 +70,7 @@ class MatchesAdapter(
                 .load(team2.image_url)
                 .fitCenter()
                 .placeholder(R.drawable.circle_placeholder)
+                .fallback(R.drawable.circle_placeholder)
                 .into(binding.team2Logo)
         }
     }

@@ -1,5 +1,6 @@
 package com.xuaum.cstv.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -24,13 +25,17 @@ class HomeFragment : Fragment() {
         HomeViewModelFactory(MatchRepository(RetrofitMatchAPI))
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        viewModel.getMatches()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -38,19 +43,20 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupGetMatchesStateObserver()
-
-        viewModel.getMatches()
     }
 
     private fun setupGetMatchesStateObserver() {
         viewModel.getMatchesState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is NetworkState.Loading-> {
+                is NetworkState.Loading -> {
                     binding.matchesLoading.visibility = View.VISIBLE
                 }
                 is NetworkState.Success -> {
                     viewModel.getMatchesResponse.value?.let { matches ->
-                        Log.i(TAG, "setupGetMatchesStateObserver: ${matches.toString()}")
+                        Log.i(
+                            TAG,
+                            "setupGetMatchesStateObserver: ${matches.filter { isValidMatch(it) }.size}"
+                        )
                         binding.matchesContainer.adapter =
                             MatchesAdapter(
                                 matches.filter { isValidMatch(it) } as ArrayList<CSMatch>,
@@ -72,7 +78,13 @@ class HomeFragment : Fragment() {
 
     private fun isValidMatch(csMatch: CSMatch): Boolean {
         csMatch.apply {
-            return opponents.size == 2 && (status == "running" || status == "not_started")
+            return if (opponents.size == 2 && (status == "running" || status == "not_started")) {
+                true
+            } else {
+                Log.i(TAG, "isValidMatch: ${this.opponents.size}, ${this.status}")
+                false
+            }
+
         }
     }
 

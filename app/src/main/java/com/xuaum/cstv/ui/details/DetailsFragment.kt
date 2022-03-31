@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.NetworkState
@@ -18,6 +19,7 @@ import com.xuaum.cstv.data.repository.MatchRepository
 import com.xuaum.cstv.data.service.RetrofitMatchAPI
 import com.xuaum.cstv.databinding.FragmentDetailsBinding
 import com.xuaum.cstv.ui.home.MatchesAdapter
+import com.xuaum.cstv.util.MyDateFormatter
 
 
 class DetailsFragment : Fragment() {
@@ -73,10 +75,21 @@ class DetailsFragment : Fragment() {
                             .placeholder(R.drawable.circle_placeholder)
                             .into(binding.detailsTeam2Logo)
 
+
+                        val loading = CircularProgressDrawable(requireContext())
+
                         binding.team1PlayersContainer.adapter = PlayersAdapter(
                             team1.players as ArrayList<Player>,
                             left = true,
-                            glide
+                            glide,
+                            loading
+                        )
+
+                        binding.team2PlayersContainer.adapter = PlayersAdapter(
+                            team2.players as ArrayList<Player>,
+                            left = false,
+                            glide,
+                            loading
                         )
                     }
                     binding.teamsLoading.visibility = View.GONE
@@ -99,7 +112,7 @@ class DetailsFragment : Fragment() {
 
     private fun setupMatchInfo() {
         binding.detailsLeagueName.text = args.leagueSerie
-        binding.detailsMatchTime.text = args.matchTime
+        binding.detailsMatchTime.text = MyDateFormatter().stringToAppDateString(args.matchTime)
     }
 
     companion object {

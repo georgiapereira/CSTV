@@ -3,7 +3,9 @@ package com.xuaum.cstv.ui.details
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.xuaum.cstv.R
@@ -14,7 +16,8 @@ import com.xuaum.cstv.databinding.PlayerItemRightBinding
 class PlayersAdapter(
     private val players: ArrayList<Player>,
     private val left: Boolean,
-    private val glide: RequestManager
+    private val glide: RequestManager,
+    private val loading: CircularProgressDrawable
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -55,9 +58,11 @@ class PlayersAdapter(
         fun bind(player: Player) {
             binding.nicknameText.text = player.name
             binding.nameText.text = "${player.first_name} ${player.last_name}"
+            loading.start()
             glide.load(player.image_url)
                 .transform(RoundedCorners(8))
                 .placeholder(R.drawable.rounded_square_placeholder)
+                .fallback(R.drawable.rounded_square_placeholder)
                 .into(binding.playerImage)
 
         }
@@ -67,6 +72,14 @@ class PlayersAdapter(
         private val binding = PlayerItemRightBinding.bind(viewItem)
 
         fun bind(player: Player) {
+            binding.nicknameText.text = player.name
+            binding.nameText.text = "${player.first_name} ${player.last_name}"
+            loading.start()
+            glide.load(player.image_url)
+                .transform(RoundedCorners(8))
+                .placeholder(R.drawable.rounded_square_placeholder)
+                .fallback(R.drawable.rounded_square_placeholder)
+                .into(binding.playerImage)
 
         }
     }
