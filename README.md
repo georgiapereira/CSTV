@@ -28,5 +28,7 @@ Os ViewModels são encarregados de mediar os dados provenientes dos Repository, 
 ## Pontos importantes
 - A listagem de partidas usa paginação para pegar as partidas da API em páginas, sem precisar baixar todas de uma vez, e possui uma função de refresh com swipe no topo da lista.
 - As imagens não ficam limitadas ao círculo por motivos estéticos para evitar cropping, apenas as imagens de jogadores tem suas bordas arredondadas.
-- A chamada à rota de listagem de partidas usa um range de "not_started" até "running", que funciona para receber todas as partidas necessárias para o app, porém como esse range é em ordem alfabética, também retorna "postponed", que são descartados, e usa um sort para listar em ordem do parâmetro "begin_at".
-- 
+- A chamada à rota de listagem de partidas usa um range de "not_started" até "running", que funciona para receber todas as partidas necessárias para o app, porém como esse range é em ordem alfabética, também retorna "postponed", que são descartados no repository, e usa um sort para listar cronologicamente em ordem do parâmetro "begin_at".
+- Os layouts foram feitos com ContraintLayouts com responsividade.
+- As telas de loading implementam ProgressBar e a tela de splash screen implementa a API do Android Jetpack com compatibilidade para versões anteriores, com a logo da Fuze em svg cumprindo os parâmetros do Android, sendo uma imagem de 288x288 com background transparente e a logo que cabe dentro de um círculo de 192dp de diâmetro, sendo as especificações da logo no projeto 113x113.
+- As datas e horários da API vem em formato de string, convertidas para LocalDateTime e depois para ZonedDateTime no fuzo horário local na classe MyDateFormatter, depois retorna no formato necessário do app.
