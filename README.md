@@ -24,3 +24,5 @@ Os arquivos de Repository utilizam o service para gerar dados úteis para as int
 uma das rotas é paginada então há um arquivo de Paging Source, para gerar um fluxo de páginas.
 
 Os ViewModels são encarregados de mediar os dados provenientes dos Repository, e os fragmentos utilizam as informações do ViewModel para atualizar as Views.
+## Pontos importantes
+- A listagem de partidas usa paginação para pegar as partidas da API sem precisar baixar todas de uma vez
