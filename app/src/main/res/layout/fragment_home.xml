@@ -45,8 +45,11 @@
         android:id="@+id/matches_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="invisible"
-        android:gravity="center">
+        android:background="@color/background_dark"
+        android:gravity="center"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="24dp"
+        tools:visibility="invisible">
 
         <ProgressBar
             android:layout_width="wrap_content"
