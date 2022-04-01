@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xuaum.cstv.data.model.NetworkState
 import com.xuaum.cstv.data.model.response.getteamsresponse.GetTeamsResponse
+import com.xuaum.cstv.data.model.response.getteamsresponse.GetTeamsResponseItem
 import com.xuaum.cstv.data.repository.MatchRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -17,8 +18,8 @@ class DetailsViewModel(
     private val _getTeamsState = MutableLiveData<NetworkState>(NetworkState.Idle)
     val getTeamsState: LiveData<NetworkState>
         get() = _getTeamsState
-    private val _getTeamsResponse: MutableLiveData<GetTeamsResponse> = MutableLiveData()
-    val getTeamsResponse: LiveData<GetTeamsResponse>
+    private val _getTeamsResponse: MutableLiveData<ArrayList<GetTeamsResponseItem>> = MutableLiveData()
+    val getTeamsResponse: LiveData<ArrayList<GetTeamsResponseItem>>
         get() = _getTeamsResponse
 
     init {

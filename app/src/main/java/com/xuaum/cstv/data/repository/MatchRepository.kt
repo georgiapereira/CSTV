@@ -5,6 +5,7 @@ import com.xuaum.cstv.data.model.NetworkState
 import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
 import com.xuaum.cstv.data.model.response.getmatchesresponse.GetMatchesResponse
 import com.xuaum.cstv.data.model.response.getteamsresponse.GetTeamsResponse
+import com.xuaum.cstv.data.model.response.getteamsresponse.GetTeamsResponseItem
 import com.xuaum.cstv.data.service.RetrofitMatchAPI
 import com.xuaum.cstv.ui.home.HomeFragment
 import kotlinx.coroutines.Dispatchers
@@ -42,11 +43,14 @@ class MatchRepository(private val matchAPI: RetrofitMatchAPI) {
         }
     }
 
-    suspend fun getTeams(team1Id: Int, team2Id: Int): GetTeamsResponse? =
+    suspend fun getTeams(team1Id: Int, team2Id: Int): ArrayList<GetTeamsResponseItem>? =
         withContext(Dispatchers.IO) {
             try {
                 _getTeamsState.value = NetworkState.Loading
                 val result = matchAPI.getTeams(team1Id, team2Id)
+                if(result?.get(0)?.id == team2Id){
+                    result.reverse()
+                }
                 _getTeamsState.value = NetworkState.Success
                 result
             } catch (e: Exception) {

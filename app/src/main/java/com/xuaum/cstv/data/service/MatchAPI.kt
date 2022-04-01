@@ -12,10 +12,10 @@ interface MatchAPI {
         @Query("page[size]") pageSize: Int = 40,
         @Query("page[number]") pageNumber: Int,
         @Query("range[status]") status: String = "not_started,running"
-    ): GetMatchesResponse?
+    ): GetMatchesResponse
 
     @GET("/csgo/teams")
     suspend fun getTeams(
         @Query("filter[id]") ids: String
-    ): GetTeamsResponse?
+    ): GetTeamsResponse
 }
