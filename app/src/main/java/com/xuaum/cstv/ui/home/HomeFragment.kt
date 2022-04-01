@@ -29,11 +29,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var matchesAdapter: MatchesAdapter
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        //viewModel.getMatches()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
