@@ -7,20 +7,27 @@
     android:background="@color/background_dark"
     tools:context=".ui.details.DetailsFragment">
 
-    <ImageButton
+    <FrameLayout
         android:id="@+id/back_button"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:translationZ="2dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
-        android:backgroundTint="@android:color/transparent"
+        android:clickable="true"
         android:contentDescription="Go back"
-        android:src="?android:attr/homeAsUpIndicator"
+        android:translationZ="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white"
-        tools:tint="@color/white" />
+         >
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="?android:attr/homeAsUpIndicator"
+            app:tint="@color/white"
+            tools:tint="@color/white" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/details_league_name"
@@ -80,6 +87,7 @@
             android:layout_marginHorizontal="20dp"
             android:fontFamily="@font/roboto"
             android:text="vs"
+            android:textColor="@color/dark_mode_text_default"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/details_team2_logo"
@@ -170,8 +178,8 @@
         android:id="@+id/teams_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="invisible"
-        android:gravity="center">
+        android:gravity="center"
+        tools:visibility="invisible">
 
         <ProgressBar
             android:layout_width="wrap_content"

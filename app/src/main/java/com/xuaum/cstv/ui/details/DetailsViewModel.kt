@@ -1,12 +1,10 @@
 package com.xuaum.cstv.ui.details
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.model.response.getmatchesresponse.GetMatchesResponse
 import com.xuaum.cstv.data.model.response.getteamsresponse.GetTeamsResponse
 import com.xuaum.cstv.data.repository.MatchRepository
 import kotlinx.coroutines.flow.collect

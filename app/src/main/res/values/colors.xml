@@ -10,7 +10,9 @@
     <color name="background_dark">#161621</color>
     <color name="background_light">#272639</color>
     <color name="line_border">#33FFFFFF</color>
-    <color name="gray">#33FAFAFA</color>
+    <color name="dark_gray">#33FAFAFA</color>
     <color name="light_gray">#C4C4C4</color>
+    <color name="gray">#6C6B7E</color>
+    <color name="dark_mode_text_default">#80FFFFFF</color>
     <color name="red">#F42A35</color>
 </resources>

@@ -27,21 +27,24 @@ class MyDateFormatter {
         val currentDate = LocalDateTime.now().atZone(ZoneId.of(TimeZone.getDefault().id))
 
         var appDateString = ""
-        appDateString += if (dateAsLocal.dayOfYear == currentDate.dayOfYear) {
-            "Hoje"
-        } else if (Period.between(currentDate.toLocalDate(), dateAsLocal.toLocalDate())
-                .get(ChronoUnit.DAYS) < 7
-        ) {
-            dateAsLocal.dayOfWeek.getDisplayName(
-                TextStyle.SHORT,
-                Locale("pt", "BR")
-            ).replaceFirstChar { it.uppercase() }
-        } else {
-            val format = DateTimeFormatter.ofPattern(
-                "dd/MM"
-            )
-            dateAsLocal.toLocalDate()
-                .format(format)
+        appDateString += when {
+            dateAsLocal.dayOfYear == currentDate.dayOfYear -> {
+                "Hoje"
+            }
+            Period.between(currentDate.toLocalDate(), dateAsLocal.toLocalDate())
+                .get(ChronoUnit.DAYS) < 7 -> {
+                dateAsLocal.dayOfWeek.getDisplayName(
+                    TextStyle.SHORT,
+                    Locale("pt", "BR")
+                ).replaceFirstChar { it.uppercase() }
+            }
+            else -> {
+                val format = DateTimeFormatter.ofPattern(
+                    "dd/MM"
+                )
+                dateAsLocal.toLocalDate()
+                    .format(format)
+            }
         }
 
         appDateString += ", "
