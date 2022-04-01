@@ -37,8 +37,11 @@ class MyDateFormatter {
                 Locale("pt", "BR")
             ).replaceFirstChar { it.uppercase() }
         } else {
+            val format = DateTimeFormatter.ofPattern(
+                "dd/MM"
+            )
             dateAsLocal.toLocalDate()
-                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+                .format(format)
         }
 
         appDateString += ", "
@@ -48,39 +51,4 @@ class MyDateFormatter {
         return appDateString
     }
 
-    fun getServerDateString(): String {
-        val serverFormat = DateTimeFormatter.ofPattern(
-            "yyyy-MM-dd'T'HH:mm:ss'Z'"
-        )
-
-        val currentDateUTC =
-            LocalDateTime.now()
-                .atZone(ZoneId.of(TimeZone.getDefault().id))
-                .withZoneSameInstant(
-                    ZoneId.of("UTC")
-                )
-
-        return currentDateUTC.format(serverFormat)
-    }
-
-    fun getServerDateStringOffset(
-        hours: Long = 0,
-        days: Long = 0,
-        months: Long = 0,
-        years: Long = 0
-    ): String {
-        val serverFormat = DateTimeFormatter.ofPattern(
-            "yyyy-MM-dd'T'HH:mm:ss'Z'"
-        )
-
-        val currentDateUTC =
-            LocalDateTime.now()
-                .plusYears(years).plusMonths(months).plusDays(days).plusHours(hours)
-                .atZone(ZoneId.of(TimeZone.getDefault().id))
-                .withZoneSameInstant(
-                    ZoneId.of("UTC")
-                )
-
-        return currentDateUTC.format(serverFormat)
-    }
 }

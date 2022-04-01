@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -16,6 +17,7 @@ import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
 import com.xuaum.cstv.data.repository.MatchRepository
 import com.xuaum.cstv.data.service.RetrofitMatchAPI
 import com.xuaum.cstv.databinding.FragmentHomeBinding
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() {
@@ -29,7 +31,7 @@ class HomeFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel.getMatches()
+        //viewModel.getMatches()
     }
 
     override fun onCreateView(
@@ -44,37 +46,45 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupMatchesAdapter()
+        setupSwipeRefreshListener()
+        setupGetMatchesStateObserver()
+        setupGetMatchesPagingResponseObserver()
+    }
+
+    private fun setupSwipeRefreshListener() {
+        binding.swipeRefresh.setOnRefreshListener {
+            matchesAdapter.refresh()
+        }
+    }
+
+    private fun setupMatchesAdapter() {
         matchesAdapter =
             MatchesAdapter(
                 Glide.with(this),
                 ::onCardClicked
             )
         binding.matchesContainer.adapter = matchesAdapter
+    }
 
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.getMatches()
+    private fun setupGetMatchesPagingResponseObserver() {
+
+        viewModel.getMatchesPagingResponse.observe(viewLifecycleOwner) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                if(matchesAdapter.itemCount != 0){
+                    binding.matchesLoading.visibility = View.GONE
+                }
+                matchesAdapter.submitData(it)
+            }
         }
-
-        setupGetMatchesStateObserver()
     }
 
     private fun setupGetMatchesStateObserver() {
         viewModel.getMatchesState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is NetworkState.Loading -> {
-                    //binding.matchesLoading.visibility = View.VISIBLE
-                }
                 is NetworkState.Success -> {
-                    viewModel.getMatchesResponse.value?.let { matches ->
-                        Log.i(
-                            TAG,
-                            "setupGetMatchesStateObserver: ${matches.filter { isValidMatch(it) }.size}"
-                        )
-                        matchesAdapter.clear()
-                        matchesAdapter.addAll(matches.filter { isValidMatch(it) } as ArrayList<CSMatch>)
-                        binding.swipeRefresh.isRefreshing = false
-                    }
                     binding.matchesLoading.visibility = View.GONE
+                    binding.swipeRefresh.isRefreshing = false
                     Log.i(TAG, "setupGetMatchesStateObserver: Sucesso")
                 }
                 is NetworkState.Failed -> {
@@ -84,18 +94,6 @@ class HomeFragment : Fragment() {
                 }
                 else -> {}
             }
-        }
-    }
-
-    private fun isValidMatch(csMatch: CSMatch): Boolean {
-        csMatch.apply {
-            return if (opponents.size == 2 && (status == "running" || status == "not_started")) {
-                true
-            } else {
-                Log.i(TAG, "isValidMatch: ${this.opponents.size}, ${this.status}")
-                false
-            }
-
         }
     }
 

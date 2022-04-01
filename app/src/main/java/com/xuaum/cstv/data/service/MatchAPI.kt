@@ -9,10 +9,9 @@ interface MatchAPI {
     @GET("/csgo/matches")
     suspend fun getMatches(
         @Query("sort") sortBegin: String = "begin_at",
-        //@Query("sort") sortStatus: String = "-status",
-        @Query("page[size]") pageSize: Int = 100,
-        @Query("range[scheduled_at]") range: String ,
-        @Query("filter[finished]") finished: Boolean = false,
+        @Query("page[size]") pageSize: Int = 40,
+        @Query("page[number]") pageNumber: Int,
+        @Query("range[status]") status: String = "not_started,running"
     ): GetMatchesResponse?
 
     @GET("/csgo/teams")

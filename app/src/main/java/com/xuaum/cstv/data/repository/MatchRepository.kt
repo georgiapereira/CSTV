@@ -1,14 +1,16 @@
 package com.xuaum.cstv.data.repository
 
+import android.util.Log
 import com.xuaum.cstv.data.model.NetworkState
+import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
 import com.xuaum.cstv.data.model.response.getmatchesresponse.GetMatchesResponse
 import com.xuaum.cstv.data.model.response.getteamsresponse.GetTeamsResponse
 import com.xuaum.cstv.data.service.RetrofitMatchAPI
+import com.xuaum.cstv.ui.home.HomeFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 class MatchRepository(private val matchAPI: RetrofitMatchAPI) {
     private val _getMatchesState = MutableStateFlow<NetworkState>(NetworkState.Idle)
@@ -19,15 +21,24 @@ class MatchRepository(private val matchAPI: RetrofitMatchAPI) {
     val getTeamsState: Flow<NetworkState>
         get() = _getTeamsState
 
-    suspend fun getMatches(): GetMatchesResponse? = withContext(Dispatchers.IO) {
+    suspend fun getMatches(pageNumber: Int): List<CSMatch>? = withContext(Dispatchers.IO) {
         try {
             _getMatchesState.value = NetworkState.Loading
-            val result = matchAPI.getMatches()
+            val result = matchAPI.getMatches(pageNumber)?.filter {
+                isValidMatch(it)
+            }
             _getMatchesState.value = NetworkState.Success
             result
         } catch (e: Exception) {
             _getMatchesState.value = NetworkState.Failed(e)
             null
+        }
+    }
+
+    private fun isValidMatch(csMatch: CSMatch): Boolean {
+        csMatch.apply {
+            return opponents.size == 2 && (status == "running" || status == "not_started")
+
         }
     }
 

@@ -10,12 +10,9 @@ object RetrofitMatchAPI {
     private val matchAPI: MatchAPI
         get() = RetrofitAPIBuilder().buildApi(MatchAPI::class.java)
 
-    suspend fun getMatches(): GetMatchesResponse? =
+    suspend fun getMatches(pageNumber: Int): GetMatchesResponse? =
         withContext(Dispatchers.IO) {
-
-            val currentDate = MyDateFormatter().getServerDateStringOffset(hours = -6)
-            val datePlusYear = MyDateFormatter().getServerDateStringOffset(years = 1)
-            val result = matchAPI.getMatches(range = "$currentDate,$datePlusYear")
+            val result = matchAPI.getMatches(pageNumber = pageNumber)
             result
         }
 
