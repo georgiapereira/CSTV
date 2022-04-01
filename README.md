@@ -24,5 +24,9 @@ Os arquivos de Repository utilizam o service para gerar dados úteis para as int
 uma das rotas é paginada então há um arquivo de Paging Source, para gerar um fluxo de páginas.
 
 Os ViewModels são encarregados de mediar os dados provenientes dos Repository, e os fragmentos utilizam as informações do ViewModel para atualizar as Views.
+
 ## Pontos importantes
-- A listagem de partidas usa paginação para pegar as partidas da API sem precisar baixar todas de uma vez
+- A listagem de partidas usa paginação para pegar as partidas da API em páginas, sem precisar baixar todas de uma vez, e possui uma função de refresh com swipe no topo da lista.
+- As imagens não ficam limitadas ao círculo por motivos estéticos para evitar cropping, apenas as imagens de jogadores tem suas bordas arredondadas.
+- A chamada à rota de listagem de partidas usa um range de "not_started" até "running", que funciona para receber todas as partidas necessárias para o app, porém como esse range é em ordem alfabética, também retorna "postponed", que são descartados, e usa um sort para listar em ordem do parâmetro "begin_at".
+- 
