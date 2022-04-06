@@ -58,49 +58,44 @@ class DetailsFragment : Fragment() {
                     binding.teamsLoadingBar.visibility = View.VISIBLE
                 }
                 is NetworkState.Success -> {
-                    viewModel.getTeamsResponse.value.let { teams ->
-                        if (teams != null) {
-                            Log.i(TAG, "setupGetTeamsStateObserver: $teams")
-                            val team1 = teams[0]
-                            val team2 = teams[1]
+                    viewModel.getTeamsResponse.value?.let { teams ->
+                        Log.i(TAG, "setupGetTeamsStateObserver: $teams")
+                        val team1 = teams[0]
+                        val team2 = teams[1]
 
-                            val glide = Glide.with(this)
+                        val glide = Glide.with(this)
 
-                            binding.detailsTeam1Name.text = team1.name
-                            glide.load(team1.image_url)
-                                .fitCenter()
-                                .placeholder(R.drawable.circle_placeholder)
-                                .into(binding.detailsTeam1Logo)
+                        binding.detailsTeam1Name.text = team1.name
+                        glide.load(team1.image_url)
+                            .fitCenter()
+                            .placeholder(R.drawable.circle_placeholder)
+                            .into(binding.detailsTeam1Logo)
 
-                            binding.detailsTeam2Name.text = team2.name
-                            glide.load(team2.image_url)
-                                .fitCenter()
-                                .placeholder(R.drawable.circle_placeholder)
-                                .into(binding.detailsTeam2Logo)
+                        binding.detailsTeam2Name.text = team2.name
+                        glide.load(team2.image_url)
+                            .fitCenter()
+                            .placeholder(R.drawable.circle_placeholder)
+                            .into(binding.detailsTeam2Logo)
 
 
-                            val loading = CircularProgressDrawable(requireContext())
+                        val loading = CircularProgressDrawable(requireContext())
 
-                            binding.team1PlayersContainer.adapter = PlayersAdapter(
-                                team1.players as ArrayList<Player>,
-                                left = true,
-                                glide,
-                                loading
-                            )
+                        binding.team1PlayersContainer.adapter = PlayersAdapter(
+                            team1.players as ArrayList<Player>,
+                            left = true,
+                            glide,
+                            loading
+                        )
 
-                            binding.team2PlayersContainer.adapter = PlayersAdapter(
-                                team2.players as ArrayList<Player>,
-                                left = false,
-                                glide,
-                                loading
-                            )
-                            binding.teamsLoading.visibility = View.GONE
-                        } else {
-                            Toast.makeText(context, "Erro ao buscar times", Toast.LENGTH_LONG)
-                                .show()
-
-                            binding.teamsLoadingBar.visibility = View.GONE
-                        }
+                        binding.team2PlayersContainer.adapter = PlayersAdapter(
+                            team2.players as ArrayList<Player>,
+                            left = false,
+                            glide,
+                            loading
+                        )
+                        binding.teamsLoading.visibility = View.GONE
+                    } ?: run {
+                        viewModel.getTeams(args.team1Id, args.team2Id)
                     }
 
                     Log.i(TAG, "setupGetTeamsStateObserver: Sucesso")

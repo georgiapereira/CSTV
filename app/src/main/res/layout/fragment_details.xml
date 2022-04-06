@@ -160,7 +160,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="5"
-            tools:listitem="@layout/player_item_left" />
+            tools:listitem="@layout/player_item" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/team2_players_container"
@@ -174,7 +174,8 @@
             app:layout_constraintStart_toEndOf="@+id/team1_players_container"
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="5"
-            tools:listitem="@layout/player_item_right" />
+            tools:listitem="@layout/player_item"
+            tools:scaleX="-1"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RelativeLayout
