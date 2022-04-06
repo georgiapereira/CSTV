@@ -12,7 +12,7 @@ import com.xuaum.cstv.data.model.response.getteamsresponse.Player
 import com.xuaum.cstv.databinding.PlayerItemBinding
 
 class PlayersAdapter(
-    private val players: ArrayList<Player>,
+    private val players: List<Player>,
     private val left: Boolean,
     private val glide: RequestManager,
     private val loading: CircularProgressDrawable

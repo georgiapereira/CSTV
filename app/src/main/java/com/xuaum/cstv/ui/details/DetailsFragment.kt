@@ -60,8 +60,7 @@ class DetailsFragment : Fragment() {
                 is NetworkState.Success -> {
                     viewModel.getTeamsResponse.value?.let { teams ->
                         Log.i(TAG, "setupGetTeamsStateObserver: $teams")
-                        val team1 = teams[0]
-                        val team2 = teams[1]
+                        val (team1, team2) = if (teams[0].id == args.team1Id) teams else teams.reversed()
 
                         val glide = Glide.with(this)
 
@@ -81,20 +80,21 @@ class DetailsFragment : Fragment() {
                         val loading = CircularProgressDrawable(requireContext())
 
                         binding.team1PlayersContainer.adapter = PlayersAdapter(
-                            team1.players as ArrayList<Player>,
+                            team1.players,
                             left = true,
                             glide,
                             loading
                         )
 
                         binding.team2PlayersContainer.adapter = PlayersAdapter(
-                            team2.players as ArrayList<Player>,
+                            team2.players,
                             left = false,
                             glide,
                             loading
                         )
                         binding.teamsLoading.visibility = View.GONE
                     } ?: run {
+                        Log.i(TAG, "setupGetTeamsStateObserver: Precisou recarregar")
                         viewModel.getTeams(args.team1Id, args.team2Id)
                     }
 

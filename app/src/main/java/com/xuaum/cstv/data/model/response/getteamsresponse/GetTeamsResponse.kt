@@ -1,3 +1,3 @@
 package com.xuaum.cstv.data.model.response.getteamsresponse
 
-class GetTeamsResponse : ArrayList<GetTeamsResponseItem>()
+class GetTeamsResponse : ArrayList<Team>()
