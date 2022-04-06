@@ -10,36 +10,35 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
 
 class MatchRepository(private val matchAPI: RetrofitMatchAPI) {
-    private val _getMatchesState = MutableStateFlow<NetworkState>(NetworkState.Idle)
-    val getMatchesState: Flow<NetworkState>
+    private val _getMatchesState = MutableStateFlow<NetworkState<Nothing>>(NetworkState.Idle)
+    val getMatchesState: Flow<NetworkState<Nothing>>
         get() = _getMatchesState
 
-    private val _getTeamsState = MutableStateFlow<NetworkState>(NetworkState.Idle)
-    val getTeamsState: Flow<NetworkState>
+    private val _getTeamsState = MutableStateFlow<NetworkState<List<Team>>>(NetworkState.Idle)
+    val getTeamsState: Flow<NetworkState<List<Team>>>
         get() = _getTeamsState
 
     suspend fun getMatches(pageNumber: Int): List<CSMatch>? = withContext(Dispatchers.IO) {
         try {
             _getMatchesState.value = NetworkState.Loading
-            matchAPI.getMatches(pageNumber).also {
-                _getMatchesState.value = NetworkState.Success
-            }
+            val result = matchAPI.getMatches(pageNumber)
+            _getMatchesState.value = NetworkState.Success()
+            result
         } catch (e: Exception) {
             _getMatchesState.value = NetworkState.Failed(e)
             null
         }
     }
 
-    suspend fun getTeams(team1Id: Int, team2Id: Int): List<Team>? =
+
+    suspend fun getTeams(team1Id: Int, team2Id: Int) {
         withContext(Dispatchers.IO) {
             try {
                 _getTeamsState.value = NetworkState.Loading
-                matchAPI.getTeams(team1Id, team2Id).also {
-                    _getTeamsState.value = NetworkState.Success
-                }
+                _getTeamsState.value = NetworkState.Success(matchAPI.getTeams(team1Id, team2Id))
             } catch (e: Exception) {
                 _getTeamsState.value = NetworkState.Failed(e)
-                null
             }
         }
+    }
 }

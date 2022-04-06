@@ -12,13 +12,13 @@ object RetrofitMatchAPI {
     private val matchAPI: MatchAPI
         get() = RetrofitAPIBuilder().buildApi(MatchAPI::class.java)
 
-    suspend fun getMatches(pageNumber: Int): List<CSMatch>? =
+    suspend fun getMatches(pageNumber: Int): List<CSMatch> =
         withContext(Dispatchers.IO) {
             val result = matchAPI.getMatches(pageNumber = pageNumber)
             result
         }
 
-    suspend fun getTeams(team1Id: Int, team2Id: Int): List<Team>? =
+    suspend fun getTeams(team1Id: Int, team2Id: Int): List<Team> =
         withContext(Dispatchers.IO) {
             val result = matchAPI.getTeams("$team1Id,$team2Id")
             result

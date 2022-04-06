@@ -54,7 +54,7 @@ class DetailsFragment : Fragment() {
                     binding.teamsLoadingBar.visibility = View.VISIBLE
                 }
                 is NetworkState.Success -> {
-                    viewModel.getTeamsResponse.value?.let { teams ->
+                    state.value?.let { teams ->
                         Log.i(TAG, "setupGetTeamsStateObserver: $teams")
                         val (team1, team2) = if (teams[0].id == args.team1Id) teams else teams.reversed()
 

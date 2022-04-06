@@ -29,6 +29,7 @@ class MyDateFormatter {
                 }
                 Period.between(currentDate.toLocalDate(), dateAsLocal.toLocalDate())
                     .get(ChronoUnit.DAYS) < 7 -> {
+
                     val weekDay = dateAsLocal.dayOfWeek.getDisplayName(
                         TextStyle.SHORT,
                         Locale("pt", "BR")
