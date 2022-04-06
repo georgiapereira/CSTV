@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -17,6 +18,7 @@ import com.xuaum.cstv.data.repository.MatchRepository
 import com.xuaum.cstv.data.service.RetrofitMatchAPI
 import com.xuaum.cstv.databinding.FragmentDetailsBinding
 import com.xuaum.cstv.util.MyDateFormatter
+import kotlinx.coroutines.launch
 
 
 class DetailsFragment : Fragment() {
@@ -86,9 +88,6 @@ class DetailsFragment : Fragment() {
                             requireContext()
                         )
                         binding.teamsLoading.visibility = View.GONE
-                    } ?: run {
-                        Log.i(TAG, "setupGetTeamsStateObserver: Precisou recarregar")
-                        viewModel.getTeams(args.team1Id, args.team2Id)
                     }
 
                     Log.i(TAG, "setupGetTeamsStateObserver: Sucesso")

@@ -2,10 +2,10 @@ package com.xuaum.cstv.ui.home
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -62,9 +62,6 @@ class HomeFragment : Fragment() {
 
         viewModel.getMatchesPager.observe(viewLifecycleOwner) {
             viewLifecycleOwner.lifecycleScope.launch {
-                if(matchesAdapter.itemCount != 0){
-                    binding.matchesLoading.visibility = View.GONE
-                }
                 matchesAdapter.submitData(it)
             }
         }
