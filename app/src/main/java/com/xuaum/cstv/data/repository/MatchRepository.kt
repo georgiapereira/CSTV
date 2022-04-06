@@ -21,21 +21,12 @@ class MatchRepository(private val matchAPI: RetrofitMatchAPI) {
     suspend fun getMatches(pageNumber: Int): List<CSMatch>? = withContext(Dispatchers.IO) {
         try {
             _getMatchesState.value = NetworkState.Loading
-            val result = matchAPI.getMatches(pageNumber)?.filter {
-                isValidMatch(it)
+            matchAPI.getMatches(pageNumber).also {
+                _getMatchesState.value = NetworkState.Success
             }
-            _getMatchesState.value = NetworkState.Success
-            result
         } catch (e: Exception) {
             _getMatchesState.value = NetworkState.Failed(e)
             null
-        }
-    }
-
-    private fun isValidMatch(csMatch: CSMatch): Boolean {
-        csMatch.apply {
-            return opponents.size == 2 && (status == "running" || status == "not_started")
-
         }
     }
 
@@ -43,9 +34,9 @@ class MatchRepository(private val matchAPI: RetrofitMatchAPI) {
         withContext(Dispatchers.IO) {
             try {
                 _getTeamsState.value = NetworkState.Loading
-                val result = matchAPI.getTeams(team1Id, team2Id)
-                _getTeamsState.value = NetworkState.Success
-                result
+                matchAPI.getTeams(team1Id, team2Id).also {
+                    _getTeamsState.value = NetworkState.Success
+                }
             } catch (e: Exception) {
                 _getTeamsState.value = NetworkState.Failed(e)
                 null

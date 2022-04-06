@@ -7,16 +7,11 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
 import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
 import com.xuaum.cstv.databinding.MatchCardBinding
 import com.xuaum.cstv.util.MyDateFormatter
-import okhttp3.internal.notifyAll
-import java.util.*
-import kotlin.collections.ArrayList
 
 class MatchesAdapter(
     private val context: Context,
