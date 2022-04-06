@@ -10,16 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
-import com.xuaum.cstv.data.model.response.getteamsresponse.Player
 import com.xuaum.cstv.data.repository.MatchRepository
 import com.xuaum.cstv.data.service.RetrofitMatchAPI
 import com.xuaum.cstv.databinding.FragmentDetailsBinding
-import com.xuaum.cstv.ui.home.MatchesAdapter
 import com.xuaum.cstv.util.MyDateFormatter
 
 
@@ -62,35 +58,32 @@ class DetailsFragment : Fragment() {
                         Log.i(TAG, "setupGetTeamsStateObserver: $teams")
                         val (team1, team2) = if (teams[0].id == args.team1Id) teams else teams.reversed()
 
-                        val glide = Glide.with(this)
 
                         binding.detailsTeam1Name.text = team1.name
-                        glide.load(team1.image_url)
-                            .fitCenter()
-                            .placeholder(R.drawable.circle_placeholder)
-                            .into(binding.detailsTeam1Logo)
-
                         binding.detailsTeam2Name.text = team2.name
-                        glide.load(team2.image_url)
-                            .fitCenter()
-                            .placeholder(R.drawable.circle_placeholder)
-                            .into(binding.detailsTeam2Logo)
 
+                        Glide.with(this).apply {
+                            load(team1.image_url)
+                                .fitCenter()
+                                .placeholder(R.drawable.circle_placeholder)
+                                .into(binding.detailsTeam1Logo)
 
-                        val loading = CircularProgressDrawable(requireContext())
+                            load(team2.image_url)
+                                .fitCenter()
+                                .placeholder(R.drawable.circle_placeholder)
+                                .into(binding.detailsTeam2Logo)
+                        }
 
                         binding.team1PlayersContainer.adapter = PlayersAdapter(
                             team1.players,
                             left = true,
-                            glide,
-                            loading
+                            requireContext()
                         )
 
                         binding.team2PlayersContainer.adapter = PlayersAdapter(
                             team2.players,
                             left = false,
-                            glide,
-                            loading
+                            requireContext()
                         )
                         binding.teamsLoading.visibility = View.GONE
                     } ?: run {

@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
     private fun setupMatchesAdapter() {
         matchesAdapter =
             MatchesAdapter(
-                Glide.with(this),
+                requireContext(),
                 ::onCardClicked
             )
         binding.matchesContainer.adapter = matchesAdapter
