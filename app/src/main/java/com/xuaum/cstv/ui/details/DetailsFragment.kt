@@ -110,7 +110,7 @@ class DetailsFragment : Fragment() {
 
     private fun setupMatchInfo() {
         binding.detailsLeagueName.text = args.leagueSerie
-        binding.detailsMatchTime.text = MyDateFormatter().stringToAppDateString(args.matchTime)
+        binding.detailsMatchTime.text = MyDateFormatter.stringToAppDateString(args.matchTime)
     }
 
     companion object {

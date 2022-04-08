@@ -1,69 +1,54 @@
 package com.xuaum.cstv
 
-import android.view.View
-import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.LargeTest
 import com.xuaum.cstv.ui.home.MatchesAdapter
-import org.hamcrest.Matcher
-import org.hamcrest.Matchers.allOf
-import org.junit.Assert.assertTrue
+import com.xuaum.cstv.util.CustomViewActions.waitForItems
+import com.xuaum.cstv.util.CustomViewActions.waitForViewGone
+import com.xuaum.cstv.util.CustomViewMatchers.hasAdapter
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 
+@LargeTest
 @RunWith(AndroidJUnit4::class)
 class AppUnitTest {
     @get:Rule
     var activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
-    fun waitForItems(): ViewAction {
-        return object : ViewAction {
-            override fun getConstraints(): Matcher<View>? {
-                return allOf(
-                    isAssignableFrom(RecyclerView::class.java),
-                    isDisplayed()
-                )
-            }
-
-            override fun getDescription(): String {
-                return "Wait for items of View to appear."
-            }
-
-            override fun perform(uiController: UiController, view: View?) {
-                val recyclerView: RecyclerView = view as RecyclerView
-
-                while (recyclerView.adapter?.itemCount == 0) {
-                        uiController.loopMainThreadForAtLeast(200)
-                    }
-
-            }
-        }
-    }
-
-//    @Before
-//    fun waitUntilLoaded() {
-//        onView(withId(R.id.matches_container)).perform(waitForItems())
-//    }
-
     @Test
-    fun clickCards_checkLoadingDetails() {
+    fun clickCards_checkDetailsLoading() {
 
-        onView(withId(R.id.matches_container)).perform(waitForItems())
-        onView(withId(R.id.matches_container))
-            .perform(
-                RecyclerViewActions.actionOnItemAtPosition<MatchesAdapter.MatchViewHolder>(
-                    0,
-                    click()
+        repeat(20) { iteration ->
+
+            onView(withId(R.id.matches_loading))
+                .perform(waitForViewGone())
+
+            onView(withId(R.id.matches_container))
+                .check(matches(hasAdapter()))
+                .perform(
+                    waitForItems(),
+                    RecyclerViewActions.actionOnItemAtPosition<MatchesAdapter.MatchViewHolder>(
+                        iteration,
+                        click()
+                    )
                 )
-            )
-        assertTrue(true)
+
+            onView(withId(R.id.teams_loading))
+                .perform(waitForViewGone())
+
+            onView(withId(R.id.team1_players_container))
+                .check(matches(hasAdapter()))
+
+            onView(withId(R.id.back_button))
+                .perform(click())
+        }
     }
 }

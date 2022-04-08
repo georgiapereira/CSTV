@@ -57,7 +57,7 @@ class MatchesAdapter(
                     binding.matchTime.text = "AGORA"
                 } else {
                     binding.matchTime.isSelected = false
-                    val dateFormatted = MyDateFormatter().stringToAppDateString(match.begin_at)
+                    val dateFormatted = MyDateFormatter.stringToAppDateString(match.begin_at)
                     binding.matchTime.text = dateFormatted
                 }
 

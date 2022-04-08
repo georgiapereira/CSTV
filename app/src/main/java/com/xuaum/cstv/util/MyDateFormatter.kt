@@ -1,5 +1,7 @@
 package com.xuaum.cstv.util
 
+import com.xuaum.cstv.extension.LocalDateTimeExtensions.asLocalTimeZone
+import com.xuaum.cstv.extension.LocalDateTimeExtensions.toLocalTimeZone
 import java.time.LocalDateTime
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -8,7 +10,7 @@ import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit
 import java.util.*
 
-class MyDateFormatter {
+object MyDateFormatter {
 
 
     fun stringToAppDateString(date: String): String {
