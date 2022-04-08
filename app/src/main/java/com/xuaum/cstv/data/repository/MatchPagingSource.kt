@@ -16,7 +16,9 @@ class MatchPagingSource(
 
             val pageNumber = params.key ?: 1
 
-            val response = matchRepository.getMatches(pageNumber)
+            val response = matchRepository.getMatches(pageNumber)?.filter {
+                isValidMatch(it)
+            }
 
             val prevKey = if (pageNumber > 0) pageNumber - 1 else null
             val nextKey =
@@ -39,6 +41,13 @@ class MatchPagingSource(
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
+    }
+
+    private fun isValidMatch(csMatch: CSMatch): Boolean {
+        csMatch.apply {
+            return opponents.size == 2 && (status == "running" || status == "not_started")
+
         }
     }
 }

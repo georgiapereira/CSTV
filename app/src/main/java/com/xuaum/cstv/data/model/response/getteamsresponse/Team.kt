@@ -1,6 +1,6 @@
 package com.xuaum.cstv.data.model.response.getteamsresponse
 
-data class GetTeamsResponseItem(
+data class Team(
     val acronym: Any,
     val current_videogame: CurrentVideogame,
     val id: Int,

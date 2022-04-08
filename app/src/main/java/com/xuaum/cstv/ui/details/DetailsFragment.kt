@@ -8,19 +8,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
-import com.xuaum.cstv.data.model.response.getteamsresponse.Player
 import com.xuaum.cstv.data.repository.MatchRepository
 import com.xuaum.cstv.data.service.RetrofitMatchAPI
 import com.xuaum.cstv.databinding.FragmentDetailsBinding
-import com.xuaum.cstv.ui.home.MatchesAdapter
 import com.xuaum.cstv.util.MyDateFormatter
+import kotlinx.coroutines.launch
 
 
 class DetailsFragment : Fragment() {
@@ -58,49 +56,38 @@ class DetailsFragment : Fragment() {
                     binding.teamsLoadingBar.visibility = View.VISIBLE
                 }
                 is NetworkState.Success -> {
-                    viewModel.getTeamsResponse.value.let { teams ->
-                        if (teams != null) {
-                            Log.i(TAG, "setupGetTeamsStateObserver: $teams")
-                            val team1 = teams[0]
-                            val team2 = teams[1]
+                    state.value?.let { teams ->
+                        Log.i(TAG, "setupGetTeamsStateObserver: $teams")
+                        val (team1, team2) = if (teams[0].id == args.team1Id) teams else teams.reversed()
 
-                            val glide = Glide.with(this)
 
-                            binding.detailsTeam1Name.text = team1.name
-                            glide.load(team1.image_url)
+                        binding.detailsTeam1Name.text = team1.name
+                        binding.detailsTeam2Name.text = team2.name
+
+                        Glide.with(this).apply {
+                            load(team1.image_url)
                                 .fitCenter()
                                 .placeholder(R.drawable.circle_placeholder)
                                 .into(binding.detailsTeam1Logo)
 
-                            binding.detailsTeam2Name.text = team2.name
-                            glide.load(team2.image_url)
+                            load(team2.image_url)
                                 .fitCenter()
                                 .placeholder(R.drawable.circle_placeholder)
                                 .into(binding.detailsTeam2Logo)
-
-
-                            val loading = CircularProgressDrawable(requireContext())
-
-                            binding.team1PlayersContainer.adapter = PlayersAdapter(
-                                team1.players as ArrayList<Player>,
-                                left = true,
-                                glide,
-                                loading
-                            )
-
-                            binding.team2PlayersContainer.adapter = PlayersAdapter(
-                                team2.players as ArrayList<Player>,
-                                left = false,
-                                glide,
-                                loading
-                            )
-                            binding.teamsLoading.visibility = View.GONE
-                        } else {
-                            Toast.makeText(context, "Erro ao buscar times", Toast.LENGTH_LONG)
-                                .show()
-
-                            binding.teamsLoadingBar.visibility = View.GONE
                         }
+
+                        binding.team1PlayersContainer.adapter = PlayersAdapter(
+                            team1.players,
+                            left = true,
+                            requireContext()
+                        )
+
+                        binding.team2PlayersContainer.adapter = PlayersAdapter(
+                            team2.players,
+                            left = false,
+                            requireContext()
+                        )
+                        binding.teamsLoading.visibility = View.GONE
                     }
 
                     Log.i(TAG, "setupGetTeamsStateObserver: Sucesso")
@@ -123,7 +110,7 @@ class DetailsFragment : Fragment() {
 
     private fun setupMatchInfo() {
         binding.detailsLeagueName.text = args.leagueSerie
-        binding.detailsMatchTime.text = MyDateFormatter().stringToAppDateString(args.matchTime)
+        binding.detailsMatchTime.text = MyDateFormatter.stringToAppDateString(args.matchTime)
     }
 
     companion object {

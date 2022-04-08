@@ -18,11 +18,11 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val matchRepository: MatchRepository
 ) : ViewModel() {
-    private val _getMatchesState = MutableLiveData<NetworkState>(NetworkState.Idle)
-    val getMatchesState: LiveData<NetworkState>
+    private val _getMatchesState = MutableLiveData<NetworkState<Nothing>>(NetworkState.Idle)
+    val getMatchesState: LiveData<NetworkState<Nothing>>
         get() = _getMatchesState
 
-    val getMatchesPagingResponse = Pager(
+    val getMatchesPager = Pager(
         PagingConfig(pageSize = 40)
     ) {
         MatchPagingSource(matchRepository)

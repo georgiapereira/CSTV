@@ -1,22 +1,20 @@
 package com.xuaum.cstv.ui.home
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.RequestManager
+import com.bumptech.glide.Glide
 import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
 import com.xuaum.cstv.databinding.MatchCardBinding
 import com.xuaum.cstv.util.MyDateFormatter
-import okhttp3.internal.notifyAll
-import java.util.*
-import kotlin.collections.ArrayList
 
 class MatchesAdapter(
-    private val glide: RequestManager,
+    private val context: Context,
     private val onCardClicked: (leagueSeries: String, team1Id: Int, team2Id: Int, matchTime: String) -> Unit
 ) : PagingDataAdapter<CSMatch, MatchesAdapter.MatchViewHolder>(diffCallback) {
 
@@ -32,22 +30,11 @@ class MatchesAdapter(
         holder.bind(getItem(position))
     }
 
-    fun clear() {
-        val size = itemCount
-        csMatches.clear()
-        notifyItemRangeRemoved(0, size)
-    }
-
-    fun addAll(csMatchesList: ArrayList<CSMatch>) {
-        csMatches.addAll(csMatchesList)
-        notifyItemRangeInserted(0, itemCount)
-    }
-
     inner class MatchViewHolder(viewItem: View) : RecyclerView.ViewHolder(viewItem) {
         private val binding = MatchCardBinding.bind(viewItem)
 
         fun bind(match: CSMatch?) {
-            if (match != null) {
+            match?.let {
                 val time = match.begin_at
                 val team1 = match.opponents[0].opponent
                 val team2 = match.opponents[1].opponent
@@ -57,10 +44,8 @@ class MatchesAdapter(
                     onCardClicked(league, team1.id, team2.id, time)
                 }
 
-
-
                 binding.leagueName.text = league
-                glide
+                Glide.with(context)
                     .load(match.league.image_url)
                     .fitCenter()
                     .placeholder(R.drawable.circle_placeholder)
@@ -72,27 +57,33 @@ class MatchesAdapter(
                     binding.matchTime.text = "AGORA"
                 } else {
                     binding.matchTime.isSelected = false
-                    val dateFormatted = MyDateFormatter().stringToAppDateString(match.begin_at)
+                    val dateFormatted = MyDateFormatter.stringToAppDateString(match.begin_at)
                     binding.matchTime.text = dateFormatted
                 }
 
+//                val loading = CircularProgressDrawable(context)
+//                loading.centerRadius = 35f
+//                loading.strokeWidth = 3f
+//                loading.start()
 
                 binding.team1Name.text = team1.name
-                glide
-                    .load(team1.image_url)
-                    .fitCenter()
-                    .placeholder(R.drawable.circle_placeholder)
-                    .fallback(R.drawable.circle_placeholder)
-                    .into(binding.team1Logo)
-
                 binding.team2Name.text = team2.name
-                glide
-                    .load(team2.image_url)
-                    .fitCenter()
-                    .placeholder(R.drawable.circle_placeholder)
-                    .fallback(R.drawable.circle_placeholder)
-                    .into(binding.team2Logo)
-            } else {
+                Glide.with(context).apply {
+                    load(team1.image_url)
+                        .fitCenter()
+                        .placeholder(R.drawable.circle_placeholder)
+                        .fallback(R.drawable.circle_placeholder)
+                        .into(binding.team1Logo)
+
+
+                    load(team2.image_url)
+                        .fitCenter()
+                        .placeholder(R.drawable.circle_placeholder)
+                        .fallback(R.drawable.circle_placeholder)
+                        .into(binding.team2Logo)
+                }
+
+            } ?: run {
                 binding.matchTime.text = ""
                 binding.leagueName.text = ""
                 binding.leagueLogo.setBackgroundResource(R.drawable.circle_placeholder)

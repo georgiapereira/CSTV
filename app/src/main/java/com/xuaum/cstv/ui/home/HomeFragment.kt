@@ -1,19 +1,15 @@
 package com.xuaum.cstv.ui.home
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
 import com.xuaum.cstv.data.repository.MatchRepository
 import com.xuaum.cstv.data.service.RetrofitMatchAPI
 import com.xuaum.cstv.databinding.FragmentHomeBinding
@@ -44,7 +40,7 @@ class HomeFragment : Fragment() {
         setupMatchesAdapter()
         setupSwipeRefreshListener()
         setupGetMatchesStateObserver()
-        setupGetMatchesPagingResponseObserver()
+        setupGetMatchesPagerObserver()
     }
 
     private fun setupSwipeRefreshListener() {
@@ -56,19 +52,16 @@ class HomeFragment : Fragment() {
     private fun setupMatchesAdapter() {
         matchesAdapter =
             MatchesAdapter(
-                Glide.with(this),
+                requireContext(),
                 ::onCardClicked
             )
         binding.matchesContainer.adapter = matchesAdapter
     }
 
-    private fun setupGetMatchesPagingResponseObserver() {
+    private fun setupGetMatchesPagerObserver() {
 
-        viewModel.getMatchesPagingResponse.observe(viewLifecycleOwner) {
+        viewModel.getMatchesPager.observe(viewLifecycleOwner) {
             viewLifecycleOwner.lifecycleScope.launch {
-                if(matchesAdapter.itemCount != 0){
-                    binding.matchesLoading.visibility = View.GONE
-                }
                 matchesAdapter.submitData(it)
             }
         }

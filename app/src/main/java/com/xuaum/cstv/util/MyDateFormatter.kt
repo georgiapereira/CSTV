@@ -1,17 +1,16 @@
 package com.xuaum.cstv.util
 
+import com.xuaum.cstv.extension.LocalDateTimeExtensions.asLocalTimeZone
+import com.xuaum.cstv.extension.LocalDateTimeExtensions.toLocalTimeZone
 import java.time.LocalDateTime
 import java.time.Period
-import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit
-import java.time.temporal.TemporalAccessor
 import java.util.*
 
-class MyDateFormatter {
+object MyDateFormatter {
 
 
     fun stringToAppDateString(date: String): String {
@@ -20,38 +19,42 @@ class MyDateFormatter {
         )
 
         val dateAsLocal =
-            LocalDateTime.parse(date, serverFormat).atZone(ZoneId.of("UTC")).withZoneSameInstant(
-                ZoneId.of(TimeZone.getDefault().id)
+            LocalDateTime.parse(date, serverFormat).toLocalTimeZone("UTC")
+
+        val currentDate = LocalDateTime.now().asLocalTimeZone
+
+        return buildString {
+
+            when {
+                dateAsLocal.dayOfYear == currentDate.dayOfYear -> {
+                    append("Hoje")
+                }
+                Period.between(currentDate.toLocalDate(), dateAsLocal.toLocalDate())
+                    .get(ChronoUnit.DAYS) < 7 -> {
+
+                    val weekDay = dateAsLocal.dayOfWeek.getDisplayName(
+                        TextStyle.SHORT,
+                        Locale("pt", "BR")
+                    ).replaceFirstChar { it.uppercase() }
+
+                    append(weekDay)
+                }
+                else -> {
+                    val format = DateTimeFormatter.ofPattern(
+                        "dd/MM"
+                    )
+                    val dayOfYear = dateAsLocal.toLocalDate()
+                        .format(format)
+                    append(dayOfYear)
+                }
+            }
+
+            append(", ")
+            append(
+                dateAsLocal.toLocalTime()
+                    .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             )
-
-        val currentDate = LocalDateTime.now().atZone(ZoneId.of(TimeZone.getDefault().id))
-
-        var appDateString = ""
-        appDateString += when {
-            dateAsLocal.dayOfYear == currentDate.dayOfYear -> {
-                "Hoje"
-            }
-            Period.between(currentDate.toLocalDate(), dateAsLocal.toLocalDate())
-                .get(ChronoUnit.DAYS) < 7 -> {
-                dateAsLocal.dayOfWeek.getDisplayName(
-                    TextStyle.SHORT,
-                    Locale("pt", "BR")
-                ).replaceFirstChar { it.uppercase() }
-            }
-            else -> {
-                val format = DateTimeFormatter.ofPattern(
-                    "dd/MM"
-                )
-                dateAsLocal.toLocalDate()
-                    .format(format)
-            }
         }
-
-        appDateString += ", "
-        appDateString += dateAsLocal.toLocalTime()
-            .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-
-        return appDateString
     }
 
 }
