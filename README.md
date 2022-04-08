@@ -16,6 +16,7 @@ No Android Studio abra o projeto clonado, aperte em Sync Now e quando finalizar 
 O aplicativo utiliza a biblioteca [Glide](https://bumptech.github.io/glide/) para carregar imagens externas, [Retrofit](https://square.github.io/retrofit/) para comunicar com a API, 
 [Gson](https://github.com/google/gson) para converter a resposta da API de Json para classes nativas,
 [Logging Interceptor](https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor) apenas para fins de debug para listar as requisições e respostas no log, e bibliotecas do [Android Jetpack](https://developer.android.com/jetpack/androidx/explorer?gclid=Cj0KCQjw0PWRBhDKARIsAPKHFGg1spKQZuAwQdZ1kzALkPlrRRJjWErjAqqvtRWRyduAAoosC_mTZzUaApnyEALw_wcB&gclsrc=aw.ds&case=all) como de navegação, splash screen, e LiveData entre outras.
+Para testes instrumentais foi utilizado a biblioteca [Espresso](https://developer.android.com/training/testing/espresso).
 ## Estrutura MVVM
 A arquitetura do projeto foi feita em MVVM, os arquivos de Service fazem a comunicação direta com a API e com o Retrofit, na configuração da biblioteca foi adicionado 
 o Logging Interceptor para log das comunicações com a API, Gson para converter as respostas nos Data Classes dos arquivos de Response, e um interceptador para adicionar a chave de API nas requisições.
@@ -32,3 +33,4 @@ Os ViewModels são encarregados de mediar os dados provenientes dos Repository, 
 - Os layouts foram feitos com ContraintLayouts com responsividade.
 - As telas de loading implementam ProgressBar e a tela de splash screen implementa a API do Android Jetpack com compatibilidade para versões anteriores, com a logo da Fuze em svg cumprindo os parâmetros do Android, sendo uma imagem de 288x288 com background transparente e a logo que cabe dentro de um círculo de 192dp de diâmetro, sendo as especificações da logo no projeto 113x113.
 - As datas e horários da API vem em formato de string, convertidas para LocalDateTime e depois para ZonedDateTime no fuso horário local na classe MyDateFormatter, depois retorna no formato necessário do app.
+- Para testes da biblioteca Espresso foram criados ViewActions e ViewMatchers customizados para lidar com os delays da API sem mudanças no código fonte.
