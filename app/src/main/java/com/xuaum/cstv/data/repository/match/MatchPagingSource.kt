@@ -1,12 +1,13 @@
-package com.xuaum.cstv.data.repository
+package com.xuaum.cstv.data.repository.match
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
-class MatchPagingSource(
+class MatchPagingSource @Inject constructor(
     private val matchRepository: MatchRepository,
 ) : PagingSource<Int, CSMatch>() {
     override suspend fun load(

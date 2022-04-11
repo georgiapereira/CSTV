@@ -8,25 +8,22 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.repository.MatchRepository
-import com.xuaum.cstv.data.service.RetrofitMatchAPI
+import com.xuaum.cstv.data.repository.match.MatchRepositoryImp
 import com.xuaum.cstv.databinding.FragmentDetailsBinding
 import com.xuaum.cstv.util.MyDateFormatter
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class DetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailsBinding
-    private val viewModel: DetailsViewModel by viewModels {
-        DetailsViewModelFactory(MatchRepository(RetrofitMatchAPI))
-    }
+    private val viewModel: DetailsViewModel by viewModels()
     private val args: DetailsFragmentArgs by navArgs()
 
     override fun onCreateView(

@@ -10,18 +10,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.repository.MatchRepository
-import com.xuaum.cstv.data.service.RetrofitMatchAPI
+import com.xuaum.cstv.data.repository.match.MatchRepositoryImp
 import com.xuaum.cstv.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory(MatchRepository(RetrofitMatchAPI))
-    }
+    private val viewModel: HomeViewModel by viewModels()
 
     private lateinit var matchesAdapter: MatchesAdapter
 

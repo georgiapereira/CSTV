@@ -6,11 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xuaum.cstv.data.model.NetworkState
 import com.xuaum.cstv.data.model.response.getteamsresponse.Team
-import com.xuaum.cstv.data.repository.MatchRepository
+import com.xuaum.cstv.data.repository.match.MatchRepository
+import com.xuaum.cstv.data.repository.match.MatchRepositoryImp
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailsViewModel(
+@HiltViewModel
+class DetailsViewModel @Inject constructor(
     private val matchRepository: MatchRepository
 ) : ViewModel() {
 

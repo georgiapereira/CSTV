@@ -18,8 +18,6 @@ class MatchesAdapter(
     private val onCardClicked: (leagueSeries: String, team1Id: Int, team2Id: Int, matchTime: String) -> Unit
 ) : PagingDataAdapter<CSMatch, MatchesAdapter.MatchViewHolder>(diffCallback) {
 
-    private val csMatches: ArrayList<CSMatch> = ArrayList()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
         return MatchViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.match_card, parent, false)
@@ -84,6 +82,7 @@ class MatchesAdapter(
                 }
 
             } ?: run {
+                //Default pedido pela api de paging
                 binding.matchTime.text = ""
                 binding.leagueName.text = ""
                 binding.leagueLogo.setBackgroundResource(R.drawable.circle_placeholder)
