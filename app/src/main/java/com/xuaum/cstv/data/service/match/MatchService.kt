@@ -5,17 +5,12 @@ import com.xuaum.cstv.data.model.response.getteamsresponse.Team
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MatchService{
-    @GET("/csgo/matches")
+interface MatchService {
     suspend fun getMatches(
-        @Query("sort") sortBegin: String = "begin_at",
-        @Query("page[size]") pageSize: Int = 40,
-        @Query("page[number]") pageNumber: Int,
-        @Query("range[status]") status: String = "not_started,running"
+        pageNumber: Int
     ): List<CSMatch>
 
-    @GET("/csgo/teams")
     suspend fun getTeams(
-        @Query("filter[id]") ids: String
+        team1Id: Int, team2Id: Int
     ): List<Team>
 }

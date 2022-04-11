@@ -1,6 +1,9 @@
 package com.xuaum.cstv.data.service
 
+import com.xuaum.cstv.data.service.match.MatchAPI
 import com.xuaum.cstv.data.service.match.MatchService
+import com.xuaum.cstv.data.service.match.MatchServiceImp
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,10 +16,9 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun apiBuilder(): ApiBuilder = RetrofitAPIBuilder
+    fun provideApiBuilder(): ApiBuilder = RetrofitAPIBuilder
 
     @Provides
-    fun matchService(apiBuilder: ApiBuilder): MatchService =
-        apiBuilder.buildApi(MatchService::class.java)
+    fun provideMatchAPI(apiBuilder: ApiBuilder): MatchAPI = apiBuilder.buildApi(MatchAPI::class.java)
 
 }

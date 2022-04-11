@@ -13,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.NetworkState
+import com.xuaum.cstv.data.model.Side
 import com.xuaum.cstv.data.repository.match.MatchRepositoryImp
 import com.xuaum.cstv.databinding.FragmentDetailsBinding
 import com.xuaum.cstv.util.MyDateFormatter
@@ -75,13 +76,13 @@ class DetailsFragment : Fragment() {
 
                         binding.team1PlayersContainer.adapter = PlayersAdapter(
                             team1.players,
-                            left = true,
+                            Side.Left,
                             requireContext()
                         )
 
                         binding.team2PlayersContainer.adapter = PlayersAdapter(
                             team2.players,
-                            left = false,
+                            Side.Right,
                             requireContext()
                         )
                         binding.teamsLoading.visibility = View.GONE
