@@ -17,12 +17,9 @@ import com.bumptech.glide.Glide
 import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.NetworkState
 import com.xuaum.cstv.data.model.Side
-import com.xuaum.cstv.data.model.response.getteamsresponse.Team
-import com.xuaum.cstv.data.repository.match.MatchRepositoryImp
 import com.xuaum.cstv.databinding.FragmentDetailsBinding
 import com.xuaum.cstv.util.MyDateFormatter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

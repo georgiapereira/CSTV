@@ -10,11 +10,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.Side
-import com.xuaum.cstv.data.model.response.getteamsresponse.Player
+import com.xuaum.cstv.data.model.response.getteamsresponse.RawPlayer
 import com.xuaum.cstv.databinding.PlayerItemBinding
 
 class PlayersAdapter(
-    private val players: List<Player>,
+    private val players: List<RawPlayer>,
     private val side: Side,
     private val context: Context
 ) : RecyclerView.Adapter<PlayersAdapter.PlayerViewHolder>() {
@@ -40,7 +40,7 @@ class PlayersAdapter(
     inner class PlayerViewHolder(viewItem: View) : RecyclerView.ViewHolder(viewItem) {
         private val binding = PlayerItemBinding.bind(viewItem)
 
-        fun bind(player: Player) {
+        fun bind(player: RawPlayer) {
             if (itemViewType == Side.Right.ordinal) {
                 binding.root.scaleX = (-1).toFloat()
                 binding.nicknameText.scaleX = (-1).toFloat()
@@ -49,7 +49,7 @@ class PlayersAdapter(
                 binding.nicknameText.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
                 binding.nameText.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
             }
-            binding.nicknameText.text = player.name
+            binding.nicknameText.text = player.nickname
             binding.nameText.text =
                 "${player.first_name?.trim() ?: ""} ${player.last_name?.trim() ?: ""}"
 

@@ -1,6 +1,8 @@
 package com.xuaum.cstv.data.model.response.getteamsresponse
 
-data class Player(
+import com.google.gson.annotations.SerializedName
+
+data class RawPlayer(
     val age: Any,
     val birth_year: Any,
     val birthday: Any,
@@ -9,7 +11,7 @@ data class Player(
     val id: Int,
     val image_url: Any,
     val last_name: String?,
-    val name: String,
+    @SerializedName("name") val nickname: String,
     val nationality: String,
     val role: Any,
     val slug: String

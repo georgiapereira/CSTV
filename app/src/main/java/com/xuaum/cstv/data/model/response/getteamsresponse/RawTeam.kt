@@ -1,6 +1,6 @@
 package com.xuaum.cstv.data.model.response.getteamsresponse
 
-data class Team(
+data class RawTeam(
     val acronym: Any,
     val current_videogame: CurrentVideogame,
     val id: Int,
@@ -8,6 +8,6 @@ data class Team(
     val location: String,
     val modified_at: String,
     val name: String,
-    val players: List<Player>,
+    val players: List<RawPlayer>,
     val slug: String
 )

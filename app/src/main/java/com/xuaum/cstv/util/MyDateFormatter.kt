@@ -1,7 +1,7 @@
 package com.xuaum.cstv.util
 
-import com.xuaum.cstv.extension.LocalDateTimeExtensions.asLocalTimeZone
-import com.xuaum.cstv.extension.LocalDateTimeExtensions.toLocalTimeZone
+import com.xuaum.cstv.extension.asLocalTimeZone
+import com.xuaum.cstv.extension.toLocalTimeZone
 import java.time.LocalDateTime
 import java.time.Period
 import java.time.format.DateTimeFormatter

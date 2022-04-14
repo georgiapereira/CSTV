@@ -1,7 +1,6 @@
 package com.xuaum.cstv.data.service.match
 
 import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
-import com.xuaum.cstv.data.model.response.getteamsresponse.Team
 import javax.inject.Inject
 
 class MatchServiceImp @Inject constructor(private val matchApi: MatchApi) : MatchService {

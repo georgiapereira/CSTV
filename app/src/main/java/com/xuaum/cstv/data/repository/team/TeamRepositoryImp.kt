@@ -1,7 +1,8 @@
 package com.xuaum.cstv.data.repository.team
 
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.model.response.getteamsresponse.Team
+import com.xuaum.cstv.data.model.Team
+import com.xuaum.cstv.data.model.toTeam
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -12,6 +13,9 @@ class TeamRepositoryImp @Inject constructor(private val remoteDataSource: TeamRe
     TeamRepository {
     override suspend fun getTeams(team1Id: Int, team2Id: Int): Flow<NetworkState<List<Team>>> {
         return remoteDataSource.getTeams(team1Id, team2Id)
+            .map { result ->
+                result.map { rawTeam -> rawTeam.toTeam() }
+            }
             .map { result -> if (result.first().id == team1Id) result else result.reversed() }
             .map { result ->
                 val forward: NetworkState<List<Team>> = NetworkState.Success(result)
