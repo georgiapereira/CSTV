@@ -2,7 +2,9 @@ package com.xuaum.cstv.data.repository.match
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
+import com.xuaum.cstv.data.model.response.CSMatch
+import com.xuaum.cstv.data.model.response.getmatchesresponse.RawCSMatch
+import kotlinx.coroutines.flow.collectLatest
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject

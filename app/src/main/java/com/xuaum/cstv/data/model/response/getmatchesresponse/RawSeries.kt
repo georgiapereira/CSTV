@@ -1,6 +1,6 @@
 package com.xuaum.cstv.data.model.response.getmatchesresponse
 
-data class Serie(
+data class RawSeries(
     val begin_at: String,
     val description: Any,
     val end_at: String,

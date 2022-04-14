@@ -9,7 +9,7 @@ data class RawPlayer(
     val first_name: String?,
     val hometown: Any,
     val id: Int,
-    val image_url: Any,
+    val image_url: String?,
     val last_name: String?,
     @SerializedName("name") val nickname: String,
     val nationality: String,

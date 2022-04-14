@@ -1,12 +1,12 @@
-package com.xuaum.cstv.data.model
+package com.xuaum.cstv.data.model.response
 
 import com.xuaum.cstv.data.model.response.getteamsresponse.RawPlayer
 
 data class Player(
-    val first_name: String?,
+    val firstName: String?,
     val id: Int,
-    val image_url: Any,
-    val last_name: String?,
+    val imageUrl: String?,
+    val lastName: String?,
     val nickname: String,
 )
 

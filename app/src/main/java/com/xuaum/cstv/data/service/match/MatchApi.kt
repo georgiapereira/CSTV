@@ -1,6 +1,6 @@
 package com.xuaum.cstv.data.service.match
 
-import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
+import com.xuaum.cstv.data.model.response.getmatchesresponse.RawCSMatch
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,6 +11,6 @@ interface MatchApi{
         @Query("page[size]") pageSize: Int = 40,
         @Query("page[number]") pageNumber: Int,
         @Query("range[status]") status: String = "not_started,running"
-    ): List<CSMatch>
+    ): List<RawCSMatch>
 
 }

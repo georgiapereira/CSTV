@@ -63,12 +63,9 @@ class HomeFragment : Fragment() {
     private fun setupGetMatchesPagerObserver() {
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getMatchesPager.collect {
-                    matchesAdapter.submitData(it)
-                }
+            viewModel.getMatchesPager.collect {
+                matchesAdapter.submitData(it)
             }
-
         }
     }
 

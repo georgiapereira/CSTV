@@ -3,8 +3,7 @@ package com.xuaum.cstv.ui.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.model.Team
-import com.xuaum.cstv.data.model.response.getteamsresponse.RawTeam
+import com.xuaum.cstv.data.model.response.Team
 import com.xuaum.cstv.data.repository.team.TeamRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

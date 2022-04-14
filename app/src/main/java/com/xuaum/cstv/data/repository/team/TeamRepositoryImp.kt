@@ -1,8 +1,8 @@
 package com.xuaum.cstv.data.repository.team
 
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.model.Team
-import com.xuaum.cstv.data.model.toTeam
+import com.xuaum.cstv.data.model.response.Team
+import com.xuaum.cstv.data.model.response.toTeam
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map

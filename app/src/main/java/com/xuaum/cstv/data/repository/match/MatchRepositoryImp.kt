@@ -1,7 +1,9 @@
 package com.xuaum.cstv.data.repository.match
 
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
+import com.xuaum.cstv.data.model.response.CSMatch
+import com.xuaum.cstv.data.model.response.getmatchesresponse.RawCSMatch
+import com.xuaum.cstv.data.model.response.toCSMatch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
@@ -16,7 +18,7 @@ class MatchRepositoryImp @Inject constructor(private val remoteDataSource: Match
     override suspend fun getMatches(pageNumber: Int): List<CSMatch>? = withContext(Dispatchers.IO) {
         try {
             _getMatchesState.value = NetworkState.Loading
-            val result = remoteDataSource.getMatches(pageNumber)
+            val result = remoteDataSource.getMatches(pageNumber).map { it.toCSMatch() }
             _getMatchesState.value = NetworkState.Success(null)
             result
         } catch (e: Exception) {

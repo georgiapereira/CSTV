@@ -1,10 +1,10 @@
 package com.xuaum.cstv.data.service.match
 
-import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
+import com.xuaum.cstv.data.model.response.getmatchesresponse.RawCSMatch
 import javax.inject.Inject
 
 class MatchServiceImp @Inject constructor(private val matchApi: MatchApi) : MatchService {
-    override suspend fun getMatches(pageNumber: Int): List<CSMatch> {
+    override suspend fun getMatches(pageNumber: Int): List<RawCSMatch> {
         return matchApi.getMatches(pageNumber = pageNumber)
     }
 }

@@ -9,9 +9,8 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.xuaum.cstv.R
-import com.xuaum.cstv.data.model.Player
 import com.xuaum.cstv.data.model.Side
-import com.xuaum.cstv.data.model.response.getteamsresponse.RawPlayer
+import com.xuaum.cstv.data.model.response.Player
 import com.xuaum.cstv.databinding.PlayerItemBinding
 
 class PlayersAdapter(
@@ -52,7 +51,7 @@ class PlayersAdapter(
             }
             binding.nicknameText.text = player.nickname
             binding.nameText.text =
-                "${player.first_name?.trim() ?: ""} ${player.last_name?.trim() ?: ""}"
+                "${player.firstName?.trim() ?: ""} ${player.lastName?.trim() ?: ""}"
 
             val loading = CircularProgressDrawable(context)
             loading.centerRadius = 35f
@@ -60,7 +59,7 @@ class PlayersAdapter(
             loading.start()
 
             Glide.with(context)
-                .load(player.image_url)
+                .load(player.imageUrl)
                 .transform(RoundedCorners(8))
                 .placeholder(loading)
                 .fallback(R.drawable.rounded_square_placeholder)

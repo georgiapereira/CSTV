@@ -1,6 +1,7 @@
 package com.xuaum.cstv.ui.home
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.xuaum.cstv.R
-import com.xuaum.cstv.data.model.response.getmatchesresponse.CSMatch
+import com.xuaum.cstv.data.model.response.CSMatch
 import com.xuaum.cstv.databinding.MatchCardBinding
 import com.xuaum.cstv.util.MyDateFormatter
 
@@ -33,10 +34,9 @@ class MatchesAdapter(
 
         fun bind(match: CSMatch?) {
             match?.let {
-                val time = match.begin_at
-                val team1 = match.opponents[0].opponent
-                val team2 = match.opponents[1].opponent
-                val league = "${match.league.name} ${match.serie.full_name}"
+                val time = match.beginAt
+                val (team1, team2) = match.opponents
+                val league = "${match.league.name} ${match.seriesName}"
 
                 binding.cardContainer.setOnClickListener {
                     onCardClicked(league, team1.id, team2.id, time)
@@ -55,7 +55,7 @@ class MatchesAdapter(
                     binding.matchTime.text = "AGORA"
                 } else {
                     binding.matchTime.isSelected = false
-                    val dateFormatted = MyDateFormatter.stringToAppDateString(match.begin_at)
+                    val dateFormatted = MyDateFormatter().stringToAppDateString(match.beginAt)
                     binding.matchTime.text = dateFormatted
                 }
 

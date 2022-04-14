@@ -19,7 +19,7 @@ class DateFormatterTest {
         val now = LocalDateTime.now(ZoneId.of("UTC"))
             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"))
 
-        assertEquals("Hoje", MyDateFormatter.stringToAppDateString(now).take(4))
+        assertEquals("Hoje", MyDateFormatter().stringToAppDateString(now).take(4))
     }
 
     @Test
@@ -28,7 +28,7 @@ class DateFormatterTest {
         val thisWeek = List(6) {
             LocalDateTime.now(ZoneId.of("UTC")).plusDays((it + 1).toLong())
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"))
-        }.map { MyDateFormatter.stringToAppDateString(it).take(3) }
+        }.map { MyDateFormatter().stringToAppDateString(it).take(3) }
 
         assertTrue(
             weekDays.containsAll(thisWeek)
@@ -40,6 +40,6 @@ class DateFormatterTest {
         val future = LocalDateTime.of(2030, 4, 27, 12, 0)
             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"))
 
-        assertEquals("27/04", MyDateFormatter.stringToAppDateString(future).take(5))
+        assertEquals("27/04", MyDateFormatter().stringToAppDateString(future).take(5))
     }
 }

@@ -1,8 +1,7 @@
 package com.xuaum.cstv.data.repository.team
 
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.model.Team
-import com.xuaum.cstv.data.model.response.getteamsresponse.RawTeam
+import com.xuaum.cstv.data.model.response.Team
 import kotlinx.coroutines.flow.Flow
 
 interface TeamRepository {

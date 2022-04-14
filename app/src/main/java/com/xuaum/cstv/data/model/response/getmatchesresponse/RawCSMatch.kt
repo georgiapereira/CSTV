@@ -1,20 +1,20 @@
 package com.xuaum.cstv.data.model.response.getmatchesresponse
 
-data class CSMatch(
+data class RawCSMatch(
     val begin_at: String,
     val end_at: String,
     val id: Int,
-    val league: League,
+    val league: RawLeague,
     val league_id: Int,
     val modified_at: String,
     val name: String,
     val number_of_games: Int,
-    val opponents: List<Opponent>,
+    val opponents: List<RawOpponent>,
     val original_scheduled_at: String,
     val rescheduled: Boolean,
     val results: List<Result>,
     val scheduled_at: String,
-    val serie: Serie,
+    val serie: RawSeries,
     val serie_id: Int,
     val slug: String,
     val status: String,

@@ -69,12 +69,12 @@ class DetailsFragment : Fragment() {
                                 binding.detailsTeam2Name.text = team2.name
 
                                 Glide.with(requireContext()).apply {
-                                    load(team1.image_url)
+                                    load(team1.imageUrl)
                                         .fitCenter()
                                         .placeholder(R.drawable.circle_placeholder)
                                         .into(binding.detailsTeam1Logo)
 
-                                    load(team2.image_url)
+                                    load(team2.imageUrl)
                                         .fitCenter()
                                         .placeholder(R.drawable.circle_placeholder)
                                         .into(binding.detailsTeam2Logo)
@@ -116,7 +116,7 @@ class DetailsFragment : Fragment() {
 
     private fun setupMatchInfo() {
         binding.detailsLeagueName.text = args.leagueSerie
-        binding.detailsMatchTime.text = MyDateFormatter.stringToAppDateString(args.matchTime)
+        binding.detailsMatchTime.text = MyDateFormatter().stringToAppDateString(args.matchTime)
     }
 
     companion object {
