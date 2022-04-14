@@ -5,7 +5,7 @@ import com.xuaum.cstv.data.model.response.getteamsresponse.Team
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MatchAPI{
+interface MatchApi{
     @GET("/csgo/matches")
     suspend fun getMatches(
         @Query("sort") sortBegin: String = "begin_at",
@@ -14,8 +14,4 @@ interface MatchAPI{
         @Query("range[status]") status: String = "not_started,running"
     ): List<CSMatch>
 
-    @GET("/csgo/teams")
-    suspend fun getTeams(
-        @Query("filter[id]") ids: String
-    ): List<Team>
 }

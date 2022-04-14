@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.xuaum.cstv.data.model.NetworkState
-import com.xuaum.cstv.data.repository.match.MatchRepositoryImp
 import com.xuaum.cstv.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -59,27 +62,35 @@ class HomeFragment : Fragment() {
 
     private fun setupGetMatchesPagerObserver() {
 
-        viewModel.getMatchesPager.observe(viewLifecycleOwner) {
-            viewLifecycleOwner.lifecycleScope.launch {
-                matchesAdapter.submitData(it)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getMatchesPager.collect {
+                    matchesAdapter.submitData(it)
+                }
             }
+
         }
     }
 
     private fun setupGetMatchesStateObserver() {
-        viewModel.getMatchesState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is NetworkState.Success -> {
-                    binding.matchesLoading.visibility = View.GONE
-                    binding.swipeRefresh.isRefreshing = false
-                    Log.i(TAG, "setupGetMatchesStateObserver: Sucesso")
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getMatchesState.collectLatest { state ->
+                    when (state) {
+                        is NetworkState.Success -> {
+                            binding.matchesLoading.visibility = View.GONE
+                            binding.swipeRefresh.isRefreshing = false
+                            Log.i(TAG, "setupGetMatchesStateObserver: Sucesso")
+                        }
+                        is NetworkState.Failed -> {
+                            binding.matchesLoading.visibility = View.GONE
+                            binding.swipeRefresh.isRefreshing = false
+                            Log.i(TAG, "setupGetMatchesStateObserver: ${state.exception}")
+                        }
+                        else -> {}
+                    }
                 }
-                is NetworkState.Failed -> {
-                    binding.matchesLoading.visibility = View.GONE
-                    binding.swipeRefresh.isRefreshing = false
-                    Log.i(TAG, "setupGetMatchesStateObserver: ${state.exception}")
-                }
-                else -> {}
+
             }
         }
     }

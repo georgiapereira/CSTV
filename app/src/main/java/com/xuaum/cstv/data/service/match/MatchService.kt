@@ -9,8 +9,4 @@ interface MatchService {
     suspend fun getMatches(
         pageNumber: Int
     ): List<CSMatch>
-
-    suspend fun getTeams(
-        team1Id: Int, team2Id: Int
-    ): List<Team>
 }

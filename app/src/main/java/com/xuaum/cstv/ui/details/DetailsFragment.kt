@@ -8,16 +8,23 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.xuaum.cstv.R
 import com.xuaum.cstv.data.model.NetworkState
 import com.xuaum.cstv.data.model.Side
+import com.xuaum.cstv.data.model.response.getteamsresponse.Team
 import com.xuaum.cstv.data.repository.match.MatchRepositoryImp
 import com.xuaum.cstv.databinding.FragmentDetailsBinding
 import com.xuaum.cstv.util.MyDateFormatter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -47,55 +54,59 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setupGetTeamsStateObserver() {
-        viewModel.getTeamsState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is NetworkState.Loading -> {
-                    binding.teamsLoading.visibility = View.VISIBLE
-                    binding.teamsLoadingBar.visibility = View.VISIBLE
-                }
-                is NetworkState.Success -> {
-                    state.value?.let { teams ->
-                        Log.i(TAG, "setupGetTeamsStateObserver: $teams")
-                        val (team1, team2) = if (teams[0].id == args.team1Id) teams else teams.reversed()
-
-
-                        binding.detailsTeam1Name.text = team1.name
-                        binding.detailsTeam2Name.text = team2.name
-
-                        Glide.with(this).apply {
-                            load(team1.image_url)
-                                .fitCenter()
-                                .placeholder(R.drawable.circle_placeholder)
-                                .into(binding.detailsTeam1Logo)
-
-                            load(team2.image_url)
-                                .fitCenter()
-                                .placeholder(R.drawable.circle_placeholder)
-                                .into(binding.detailsTeam2Logo)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getTeamsState.collectLatest { state ->
+                    when (state) {
+                        is NetworkState.Loading -> {
+                            Log.i(TAG, "setupGetTeamsStateObserver: loading")
+                            binding.teamsLoading.visibility = View.VISIBLE
+                            binding.teamsLoadingBar.visibility = View.VISIBLE
                         }
+                        is NetworkState.Success -> {
+                            state.value?.let { teams ->
+                                Log.i(TAG, "setupGetTeamsStateObserver: $teams")
+                                val (team1, team2) = teams
 
-                        binding.team1PlayersContainer.adapter = PlayersAdapter(
-                            team1.players,
-                            Side.Left,
-                            requireContext()
-                        )
+                                binding.detailsTeam1Name.text = team1.name
+                                binding.detailsTeam2Name.text = team2.name
 
-                        binding.team2PlayersContainer.adapter = PlayersAdapter(
-                            team2.players,
-                            Side.Right,
-                            requireContext()
-                        )
-                        binding.teamsLoading.visibility = View.GONE
+                                Glide.with(requireContext()).apply {
+                                    load(team1.image_url)
+                                        .fitCenter()
+                                        .placeholder(R.drawable.circle_placeholder)
+                                        .into(binding.detailsTeam1Logo)
+
+                                    load(team2.image_url)
+                                        .fitCenter()
+                                        .placeholder(R.drawable.circle_placeholder)
+                                        .into(binding.detailsTeam2Logo)
+                                }
+
+                                binding.team1PlayersContainer.adapter = PlayersAdapter(
+                                    team1.players,
+                                    Side.Left,
+                                    requireContext()
+                                )
+
+                                binding.team2PlayersContainer.adapter = PlayersAdapter(
+                                    team2.players,
+                                    Side.Right,
+                                    requireContext()
+                                )
+                                binding.teamsLoading.visibility = View.GONE
+                            }
+
+                            Log.i(TAG, "setupGetTeamsStateObserver: Sucesso")
+                        }
+                        is NetworkState.Failed -> {
+                            binding.teamsLoadingBar.visibility = View.GONE
+                            Log.i(TAG, "setupGetTeamsStateObserver: ${state.exception}")
+                            Toast.makeText(context, "Erro na requisição", Toast.LENGTH_LONG).show()
+                        }
+                        else -> {}
                     }
-
-                    Log.i(TAG, "setupGetTeamsStateObserver: Sucesso")
                 }
-                is NetworkState.Failed -> {
-                    binding.teamsLoadingBar.visibility = View.GONE
-                    Log.i(TAG, "setupGetTeamsStateObserver: ${state.exception}")
-                    Toast.makeText(context, "Erro na requisição", Toast.LENGTH_LONG).show()
-                }
-                else -> {}
             }
         }
     }

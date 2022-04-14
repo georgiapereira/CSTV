@@ -6,14 +6,11 @@ import com.xuaum.cstv.data.model.response.getteamsresponse.Team
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 
 interface MatchRepository {
-    val getMatchesState: Flow<NetworkState<Nothing>>
-
-    val getTeamsState: Flow<NetworkState<List<Team>>>
+    val getMatchesState: StateFlow<NetworkState<Nothing>>
 
     suspend fun getMatches(pageNumber: Int): List<CSMatch>?
-
-    suspend fun getTeams(team1Id: Int, team2Id: Int)
 }
