@@ -1,8 +1,8 @@
 package com.xuaum.cstv.data.service
 
 import com.xuaum.cstv.BuildConfig
-import com.xuaum.cstv.util.Constants.API_KEY
-import com.xuaum.cstv.util.Constants.BASE_URL
+import com.xuaum.cstv.util.API_KEY
+import com.xuaum.cstv.util.BASE_URL
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

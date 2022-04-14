@@ -3,6 +3,7 @@ package com.xuaum.cstv.ui.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xuaum.cstv.data.model.NetworkState
+import com.xuaum.cstv.data.model.Team
 import com.xuaum.cstv.data.model.response.getteamsresponse.RawTeam
 import com.xuaum.cstv.data.repository.team.TeamRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,9 +18,9 @@ class DetailsViewModel @Inject constructor(
     private val teamRepository: TeamRepository
 ) : ViewModel() {
 
-    private val _getTeamsResponse: MutableStateFlow<NetworkState<List<RawTeam>>> =
+    private val _getTeamsResponse: MutableStateFlow<NetworkState<List<Team>>> =
         MutableStateFlow(NetworkState.Idle)
-    val getTeamsState: StateFlow<NetworkState<List<RawTeam>>>
+    val getTeamsState: StateFlow<NetworkState<List<Team>>>
         get() = _getTeamsResponse
 
     fun getTeams(team1Id: Int, team2Id: Int) {

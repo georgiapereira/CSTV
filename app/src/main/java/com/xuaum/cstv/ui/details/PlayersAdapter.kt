@@ -9,12 +9,13 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.xuaum.cstv.R
+import com.xuaum.cstv.data.model.Player
 import com.xuaum.cstv.data.model.Side
 import com.xuaum.cstv.data.model.response.getteamsresponse.RawPlayer
 import com.xuaum.cstv.databinding.PlayerItemBinding
 
 class PlayersAdapter(
-    private val players: List<RawPlayer>,
+    private val players: List<Player>,
     private val side: Side,
     private val context: Context
 ) : RecyclerView.Adapter<PlayersAdapter.PlayerViewHolder>() {
@@ -40,7 +41,7 @@ class PlayersAdapter(
     inner class PlayerViewHolder(viewItem: View) : RecyclerView.ViewHolder(viewItem) {
         private val binding = PlayerItemBinding.bind(viewItem)
 
-        fun bind(player: RawPlayer) {
+        fun bind(player: Player) {
             if (itemViewType == Side.Right.ordinal) {
                 binding.root.scaleX = (-1).toFloat()
                 binding.nicknameText.scaleX = (-1).toFloat()
