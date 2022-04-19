@@ -1,7 +1,7 @@
 package com.xuaum.cstv.data.repository
 
-import com.xuaum.cstv.data.repository.match.MatchRepository
-import com.xuaum.cstv.data.repository.match.MatchRepositoryImp
+import com.xuaum.cstv.data.repository.match.MatchPagingSourceFactory
+import com.xuaum.cstv.data.repository.match.MatchPagingSourceFactoryImp
 import com.xuaum.cstv.data.repository.team.TeamRepository
 import com.xuaum.cstv.data.repository.team.TeamRepositoryImp
 import dagger.Binds
@@ -14,7 +14,7 @@ import dagger.hilt.android.components.ViewModelComponent
 interface RepositoryModule {
 
     @Binds
-    fun matchRepository(matchRepositoryImp: MatchRepositoryImp): MatchRepository
+    fun matchPagingSourceFactory(matchPagingSourceFactoryImp: MatchPagingSourceFactoryImp): MatchPagingSourceFactory
 
     @Binds
     fun teamRepository(teamRepositoryImp: TeamRepositoryImp): TeamRepository

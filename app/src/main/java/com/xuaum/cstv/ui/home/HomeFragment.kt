@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.xuaum.cstv.data.model.NetworkState
 import com.xuaum.cstv.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,24 +71,22 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupGetMatchesStateObserver() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getMatchesState.collectLatest { state ->
-                    when (state) {
-                        is NetworkState.Success -> {
-                            binding.matchesLoading.visibility = View.GONE
-                            binding.swipeRefresh.isRefreshing = false
-                            Log.i(TAG, "setupGetMatchesStateObserver: Sucesso")
-                        }
-                        is NetworkState.Failed -> {
-                            binding.matchesLoading.visibility = View.GONE
-                            binding.swipeRefresh.isRefreshing = false
-                            Log.i(TAG, "setupGetMatchesStateObserver: ${state.exception}")
-                        }
-                        else -> {}
-                    }
-                }
+        matchesAdapter.addLoadStateListener { loadState ->
+            if (loadState.refresh !is LoadState.Loading) {
+                binding.matchesLoading.visibility = View.GONE
+                binding.swipeRefresh.isRefreshing = false
 
+                val errorState = when {
+                    loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                    loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                    loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+                    else -> null
+                }
+                errorState?.let {
+                    Log.i(TAG, "setupGetMatchesStateObserver: Erro:${errorState.error.message}")
+                }?: kotlin.run {
+                    Log.i(TAG, "setupGetMatchesStateObserver: Sucesso")
+                }
             }
         }
     }
